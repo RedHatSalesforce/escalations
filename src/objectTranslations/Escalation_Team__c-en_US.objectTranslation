@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Escalation Team</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Escalation Teams</value>
+    </caseValues>
+    <fields>
+        <help><!-- The contact associated with the escalation --></help>
+        <label><!-- Contact --></label>
+        <name>Contact__c</name>
+        <relationshipLabel><!-- Escalation Teams --></relationshipLabel>
+    </fields>
+    <fields>
+        <help><!-- The email associated with the escalation --></help>
+        <label><!-- Email --></label>
+        <name>Email__c</name>
+    </fields>
+    <fields>
+        <help><!-- The escalation the team member is associated with --></help>
+        <label><!-- Escalation --></label>
+        <name>Escalation__c</name>
+        <relationshipLabel><!-- Escalation Teams --></relationshipLabel>
+    </fields>
+    <fields>
+        <help><!-- If the team member is considered internal --></help>
+        <label><!-- Internal --></label>
+        <name>Internal__c</name>
+    </fields>
+    <fields>
+        <help><!-- The type of the team member --></help>
+        <label><!-- Type --></label>
+        <name>Type__c</name>
+    </fields>
+    <fields>
+        <help><!-- The user associated with the escalation --></help>
+        <label><!-- User --></label>
+        <name>User__c</name>
+        <relationshipLabel><!-- Escalation Teams --></relationshipLabel>
+    </fields>
+    <layouts>
+        <layout>Escalation Team Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
+    <startsWith>Vowel</startsWith>
+    <validationRules>
+        <errorMessage><!-- Only one point of contact can be set --></errorMessage>
+        <name>One_contact_point_set</name>
+    </validationRules>
+</CustomObjectTranslation>
