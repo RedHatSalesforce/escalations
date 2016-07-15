@@ -8,5 +8,80 @@
         <plural>true</plural>
         <value>Escalations</value>
     </caseValues>
+    <fields>
+        <help><!-- The number of comments --></help>
+        <label><!-- Comment Count --></label>
+        <name>CommentCount__c</name>
+    </fields>
+    <fields>
+        <help><!-- The description of the issue --></help>
+        <label><!-- Description --></label>
+        <name>Description__c</name>
+    </fields>
+    <fields>
+        <help><!-- When the last comment was made --></help>
+        <label><!-- Last Comment Date --></label>
+        <name>LastCommentDate__c</name>
+    </fields>
+    <fields>
+        <help><!-- When the last private comment was made --></help>
+        <label><!-- Last Private Comment Date --></label>
+        <name>LastPrivateCommentDate__c</name>
+    </fields>
+    <fields>
+        <help><!-- When the last public comment was made --></help>
+        <label><!-- Last Public Comment Date --></label>
+        <name>LastPublicCommentDate__c</name>
+    </fields>
+    <fields>
+        <help><!-- When the last update was made --></help>
+        <label><!-- Last Update Date --></label>
+        <name>LastUpdateDate__c</name>
+    </fields>
+    <fields>
+        <help><!-- The primary case for the escalation --></help>
+        <label><!-- Primary Case --></label>
+        <name>PrimaryCase__c</name>
+        <relationshipLabel><!-- Escalations --></relationshipLabel>
+    </fields>
+    <fields>
+        <help><!-- The number of private comments --></help>
+        <label><!-- Private Comment Count --></label>
+        <name>PrivateCommentCount__c</name>
+    </fields>
+    <fields>
+        <help><!-- The number of public comments --></help>
+        <label><!-- Public Comment Count --></label>
+        <name>PublicCommentCount__c</name>
+    </fields>
+    <fields>
+        <help><!-- The subject of the issue --></help>
+        <label><!-- Subject --></label>
+        <name>Subject__c</name>
+    </fields>
+    <fields>
+        <help><!-- The escalation tier --></help>
+        <label><!-- Tier --></label>
+        <name>Tier__c</name>
+        <picklistValues>
+            <masterLabel>Tier 1</masterLabel>
+            <translation><!-- Tier 1 --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Tier 2</masterLabel>
+            <translation><!-- Tier 2 --></translation>
+        </picklistValues>
+        <picklistValues>
+            <masterLabel>Tier 3</masterLabel>
+            <translation><!-- Tier 3 --></translation>
+        </picklistValues>
+    </fields>
+    <layouts>
+        <layout>Escalation Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+    </layouts>
     <startsWith>Vowel</startsWith>
 </CustomObjectTranslation>

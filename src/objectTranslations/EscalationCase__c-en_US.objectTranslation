@@ -20,6 +20,11 @@
         <name>Escalation__c</name>
         <relationshipLabel><!-- Escalation Cases --></relationshipLabel>
     </fields>
+    <fields>
+        <help><!-- If this case is the primary case associated with the escalation --></help>
+        <label><!-- Primary --></label>
+        <name>Primary__c</name>
+    </fields>
     <layouts>
         <layout>Escalation Case Layout</layout>
         <sections>

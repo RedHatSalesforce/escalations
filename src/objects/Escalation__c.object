@@ -56,6 +56,182 @@
     <enableSearch>false</enableSearch>
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
+    <fields>
+        <fullName>CommentCount__c</fullName>
+        <description>The number of comments</description>
+        <externalId>false</externalId>
+        <formula>PrivateCommentCount__c +  PublicCommentCount__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <inlineHelpText>The number of comments</inlineHelpText>
+        <label>Comment Count</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Description__c</fullName>
+        <description>The description of the issue</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The description of the issue</inlineHelpText>
+        <label>Description</label>
+        <length>32768</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>5</visibleLines>
+    </fields>
+    <fields>
+        <fullName>LastCommentDate__c</fullName>
+        <description>When the last comment was made</description>
+        <externalId>false</externalId>
+        <formula>IF(LastPrivateCommentDate__c &gt; LastPublicCommentDate__c, LastPrivateCommentDate__c, LastPublicCommentDate__c)</formula>
+        <inlineHelpText>When the last comment was made</inlineHelpText>
+        <label>Last Comment Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>DateTime</type>
+    </fields>
+    <fields>
+        <fullName>LastPrivateCommentDate__c</fullName>
+        <description>When the last private comment was made</description>
+        <externalId>false</externalId>
+        <inlineHelpText>When the last private comment was made</inlineHelpText>
+        <label>Last Private Comment Date</label>
+        <summarizedField>EscalationComment__c.CreatedDate</summarizedField>
+        <summaryFilterItems>
+            <field>EscalationComment__c.Private__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </summaryFilterItems>
+        <summaryForeignKey>EscalationComment__c.Escalation__c</summaryForeignKey>
+        <summaryOperation>max</summaryOperation>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>LastPublicCommentDate__c</fullName>
+        <description>When the last public comment was made</description>
+        <externalId>false</externalId>
+        <inlineHelpText>When the last public comment was made</inlineHelpText>
+        <label>Last Public Comment Date</label>
+        <summarizedField>EscalationComment__c.CreatedDate</summarizedField>
+        <summaryFilterItems>
+            <field>EscalationComment__c.Private__c</field>
+            <operation>equals</operation>
+            <value>False</value>
+        </summaryFilterItems>
+        <summaryForeignKey>EscalationComment__c.Escalation__c</summaryForeignKey>
+        <summaryOperation>max</summaryOperation>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>LastUpdateDate__c</fullName>
+        <description>When the last update was made</description>
+        <externalId>false</externalId>
+        <formula>IF( LastModifiedDate &gt; LastCommentDate__c, LastModifiedDate, LastCommentDate__c)</formula>
+        <inlineHelpText>When the last update was made</inlineHelpText>
+        <label>Last Update Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>DateTime</type>
+    </fields>
+    <fields>
+        <fullName>PrimaryCase__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>The primary case for the escalation</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The primary case for the escalation</inlineHelpText>
+        <label>Primary Case</label>
+        <referenceTo>Case</referenceTo>
+        <relationshipLabel>Escalations</relationshipLabel>
+        <relationshipName>Escalations</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>PrivateCommentCount__c</fullName>
+        <description>The number of private comments</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The number of private comments</inlineHelpText>
+        <label>Private Comment Count</label>
+        <summaryFilterItems>
+            <field>EscalationComment__c.Private__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </summaryFilterItems>
+        <summaryForeignKey>EscalationComment__c.Escalation__c</summaryForeignKey>
+        <summaryOperation>count</summaryOperation>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>PublicCommentCount__c</fullName>
+        <description>The number of public comments</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The number of public comments</inlineHelpText>
+        <label>Public Comment Count</label>
+        <summaryFilterItems>
+            <field>EscalationComment__c.Private__c</field>
+            <operation>equals</operation>
+            <value>False</value>
+        </summaryFilterItems>
+        <summaryForeignKey>EscalationComment__c.Escalation__c</summaryForeignKey>
+        <summaryOperation>count</summaryOperation>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>Subject__c</fullName>
+        <description>The subject of the issue</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The subject of the issue</inlineHelpText>
+        <label>Subject</label>
+        <length>255</length>
+        <required>true</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Tier__c</fullName>
+        <description>The escalation tier</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The escalation tier</inlineHelpText>
+        <label>Tier</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Tier 1</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Tier 2</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Tier 3</fullName>
+                <default>false</default>
+            </picklistValues>
+            <restrictedPicklist>true</restrictedPicklist>
+            <sorted>false</sorted>
+        </picklist>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
     <label>Escalation</label>
     <nameField>
         <displayFormat>EN-{00000}</displayFormat>

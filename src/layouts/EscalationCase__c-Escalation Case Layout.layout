@@ -11,6 +11,10 @@
                 <behavior>Required</behavior>
                 <field>Escalation__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Primary__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

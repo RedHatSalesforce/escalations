@@ -86,6 +86,16 @@
         <type>MasterDetail</type>
         <writeRequiresMasterRead>false</writeRequiresMasterRead>
     </fields>
+    <fields>
+        <fullName>Primary__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>If this case is the primary case associated with the escalation</description>
+        <externalId>false</externalId>
+        <inlineHelpText>If this case is the primary case associated with the escalation</inlineHelpText>
+        <label>Primary</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
     <label>Escalation Case</label>
     <nameField>
         <displayFormat>ECN-{00000}</displayFormat>
