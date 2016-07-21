@@ -10,7 +10,7 @@
     </caseValues>
     <fields>
         <help><!-- The number of cases associated with the Escalation --></help>
-        <label><!-- CaseCount --></label>
+        <label><!-- Case Count --></label>
         <name>CaseCount__c</name>
     </fields>
     <fields>

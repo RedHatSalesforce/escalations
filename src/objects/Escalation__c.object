@@ -61,7 +61,7 @@
         <description>The number of cases associated with the Escalation</description>
         <externalId>false</externalId>
         <inlineHelpText>The number of cases associated with the Escalation</inlineHelpText>
-        <label>CaseCount</label>
+        <label>Case Count</label>
         <summaryForeignKey>EscalationCase__c.Escalation__c</summaryForeignKey>
         <summaryOperation>count</summaryOperation>
         <trackHistory>false</trackHistory>
