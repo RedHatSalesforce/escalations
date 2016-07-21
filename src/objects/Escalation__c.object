@@ -57,6 +57,18 @@
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
     <fields>
+        <fullName>CaseCount__c</fullName>
+        <description>The number of cases associated with the Escalation</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The number of cases associated with the Escalation</inlineHelpText>
+        <label>CaseCount</label>
+        <summaryForeignKey>EscalationCase__c.Escalation__c</summaryForeignKey>
+        <summaryOperation>count</summaryOperation>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <fields>
         <fullName>CommentCount__c</fullName>
         <description>The number of comments</description>
         <externalId>false</externalId>

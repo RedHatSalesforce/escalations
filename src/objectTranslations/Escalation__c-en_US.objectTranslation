@@ -9,6 +9,11 @@
         <value>Escalations</value>
     </caseValues>
     <fields>
+        <help><!-- The number of cases associated with the Escalation --></help>
+        <label><!-- CaseCount --></label>
+        <name>CaseCount__c</name>
+    </fields>
+    <fields>
         <help><!-- The number of comments --></help>
         <label><!-- Comment Count --></label>
         <name>CommentCount__c</name>
