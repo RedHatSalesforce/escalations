@@ -5,7 +5,7 @@
 */
 
 @isTest
-private class BaseTriggerTest {
+private class BaseTrigger_Test {
 	public class ExampleTrigger extends BaseTrigger {
 		public ExampleTrigger() {}
 
@@ -33,11 +33,11 @@ private class BaseTriggerTest {
 
 		Test.stopTest();
 
-		System.assertEquals(oldMap.size(), bt.baseOldMap.size(), 'Did not get the expected number of objects: ' + bt.baseOldMap);
+		System.assertEquals(1, bt.baseOldMap.size(), 'Did not get the expected number of objects: ' + bt.baseOldMap);
 		System.assertEquals(oldName, bt.baseOldMap.get(a.Id).get('Name'), 'Did not get the expected name');
-		System.assertEquals(accounts.size(), bt.baseNewObjs.size(), 'Did not get the expected number of objects: ' + bt.baseNewObjs);
+		System.assertEquals(1, bt.baseNewObjs.size(), 'Did not get the expected number of objects: ' + bt.baseNewObjs);
 		System.assertEquals(a.Name, bt.baseNewObjs.get(0).get('Name'), 'Did not get the expected name');
-		System.assertEquals(newMap.size(), bt.baseNewMap.size(), 'Did not get the expected number of objects: ' + bt.baseNewMap);
+		System.assertEquals(1, bt.baseNewMap.size(), 'Did not get the expected number of objects: ' + bt.baseNewMap);
 		System.assertEquals(a.Name, bt.baseNewMap.get(a.Id).get('Name'), 'Did not get the expected name');
 	}
 
@@ -82,7 +82,7 @@ private class BaseTriggerTest {
 
 		Test.stopTest();
 
-		System.assertEquals(expectedBaseNewObjs.size(), baseNewObjs.size(), 'Did not get the expected number of objects: ' + baseNewObjs);
+		System.assertEquals(1, baseNewObjs.size(), 'Did not get the expected number of objects: ' + baseNewObjs);
 
 		for (sObject account : baseNewObjs) {
 			Id accountId = account.Id;
@@ -139,7 +139,7 @@ private class BaseTriggerTest {
 
 		Test.stopTest();
 
-		System.assertEquals(expectedBaseOldMap.size(), baseOldMap.size(), 'Did not get the expected number of objects: ' + baseOldMap);
+		System.assertEquals(1, baseOldMap.size(), 'Did not get the expected number of objects: ' + baseOldMap);
 
 		for (Id accountId : baseOldMap.keySet()) {
 			System.assert(expectedBaseOldMap.containsKey(accountId), 'Should contain accountId: ' + accountId);
@@ -195,7 +195,7 @@ private class BaseTriggerTest {
 
 		Test.stopTest();
 
-		System.assertEquals(expectedBaseNewMap.size(), baseNewMap.size(), 'Did not get the expected number of objects: ' + baseNewMap);
+		System.assertEquals(1, baseNewMap.size(), 'Did not get the expected number of objects: ' + baseNewMap);
 
 		for (Id accountId : baseNewMap.keySet()) {
 			System.assert(expectedBaseNewMap.containsKey(accountId), 'Should contain accountId: ' + accountId);
