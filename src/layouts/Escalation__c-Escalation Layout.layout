@@ -85,7 +85,8 @@
         <relatedList>RelatedHistoryList</relatedList>
     </relatedLists>
     <relatedLists>
-        <fields>NAME</fields>
+        <fields>Primary__c</fields>
+        <fields>Case.NAME</fields>
         <relatedList>EscalationCase__c.Escalation__c</relatedList>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
