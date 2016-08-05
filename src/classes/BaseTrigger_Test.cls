@@ -9,9 +9,74 @@ private class BaseTrigger_Test {
 	public class ExampleTrigger extends BaseTrigger {
 		public ExampleTrigger() {}
 
+		public override String getTriggerName() {
+			return 'ExampleTrigger';
+		}
+
 		public ExampleTrigger(Map<Id, Account> xoldMap, List<Account> xnewObjs, Boolean isBefore) {
 			super(xoldMap, xnewObjs, isBefore);
 		}
+	}
+
+	public class OtherTrigger extends BaseTrigger {
+		public OtherTrigger() {}
+
+		public override String getTriggerName() {
+			return 'OtherTrigger';
+		}
+
+		public OtherTrigger(Map<Id, Account> xoldMap, List<Account> xnewObjs, Boolean isBefore) {
+			super(xoldMap, xnewObjs, isBefore);
+		}
+	}
+
+	static testMethod void TriggerInfo_baseConstructor() {
+		Test.startTest();
+		BaseTrigger.TriggerInfo ti = new BaseTrigger.TriggerInfo();
+		Test.stopTest();
+
+		System.assertEquals(0, ti.numberOfBeforeRuns, 'incorrect numberOfBeforeRuns');
+		System.assertEquals(0, ti.numberOfAfterRuns, 'incorrect numberOfAfterRuns');
+	}
+
+	static testMethod void TriggerInfo_Constructor() {
+		String triggerName = 'Blah';
+
+		Test.startTest();
+		BaseTrigger.TriggerInfo ti = new BaseTrigger.TriggerInfo(triggerName);
+		Test.stopTest();
+
+		System.assertEquals(0, ti.numberOfBeforeRuns, 'incorrect numberOfBeforeRuns');
+		System.assertEquals(0, ti.numberOfAfterRuns, 'incorrect numberOfAfterRuns');
+		System.assertEquals(triggerName, ti.triggerClassName, 'incorrect triggerClassName');
+	}
+
+	static testMethod void TriggerInfo_iterateRunBefore() {
+		String triggerName = 'Blah';
+
+		BaseTrigger.TriggerInfo ti = new BaseTrigger.TriggerInfo(triggerName);
+
+		Test.startTest();
+		ti.iterateRunBefore();
+		Test.stopTest();
+
+		System.assertEquals(1, ti.numberOfBeforeRuns, 'incorrect numberOfBeforeRuns');
+		System.assertEquals(0, ti.numberOfAfterRuns, 'incorrect numberOfAfterRuns');
+		System.assertEquals(triggerName, ti.triggerClassName, 'incorrect triggerClassName');
+	}
+
+	static testMethod void TriggerInfo_iterateRunAfter() {
+		String triggerName = 'Blah';
+
+		BaseTrigger.TriggerInfo ti = new BaseTrigger.TriggerInfo(triggerName);
+
+		Test.startTest();
+		ti.iterateRunAfter();
+		Test.stopTest();
+
+		System.assertEquals(0, ti.numberOfBeforeRuns, 'incorrect numberOfBeforeRuns');
+		System.assertEquals(1, ti.numberOfAfterRuns, 'incorrect numberOfAfterRuns');
+		System.assertEquals(triggerName, ti.triggerClassName, 'incorrect triggerClassName');
 	}
 
 	static testMethod void constructor() {
@@ -39,6 +104,16 @@ private class BaseTrigger_Test {
 		System.assertEquals(a.Name, bt.baseNewObjs.get(0).get('Name'), 'Did not get the expected name');
 		System.assertEquals(1, bt.baseNewMap.size(), 'Did not get the expected number of objects: ' + bt.baseNewMap);
 		System.assertEquals(a.Name, bt.baseNewMap.get(a.Id).get('Name'), 'Did not get the expected name');
+
+		System.assertEquals(1, BaseTrigger.triggerNameToInfoMap.keySet().size(), 'should be one key: ' + BaseTrigger.triggerNameToInfoMap);
+		System.assert(BaseTrigger.triggerNameToInfoMap.containsKey('ExampleTrigger'), 'should have key: ' + BaseTrigger.triggerNameToInfoMap);
+		System.assertEquals(0, BaseTrigger.triggerNameToInfoMap.get('ExampleTrigger').numberOfBeforeRuns, 'should be no numberOfBeforeRuns');
+		System.assertEquals(1, BaseTrigger.triggerNameToInfoMap.get('ExampleTrigger').numberOfAfterRuns, 'should be one numberOfAfterRuns');
+		System.assertEquals(
+			'ExampleTrigger',
+			BaseTrigger.triggerNameToInfoMap.get('ExampleTrigger').triggerClassName,
+			'unexpected triggerClassName'
+		);
 	}
 
 	static testMethod void baseNewObjs_empty() {
@@ -603,6 +678,16 @@ private class BaseTrigger_Test {
 
 		System.assertEquals(1, bt.numberOfBeforeRuns, 'Should have one run before');
 		System.assertEquals(0, bt.numberOfAfterRuns, 'Should not have run after');
+
+		System.assertEquals(1, BaseTrigger.triggerNameToInfoMap.keySet().size(), 'should be one key: ' + BaseTrigger.triggerNameToInfoMap);
+		System.assert(BaseTrigger.triggerNameToInfoMap.containsKey('ExampleTrigger'), 'should have key: ' + BaseTrigger.triggerNameToInfoMap);
+		System.assertEquals(1, BaseTrigger.triggerNameToInfoMap.get('ExampleTrigger').numberOfBeforeRuns, 'should be no numberOfBeforeRuns');
+		System.assertEquals(0, BaseTrigger.triggerNameToInfoMap.get('ExampleTrigger').numberOfAfterRuns, 'should be one numberOfAfterRuns');
+		System.assertEquals(
+			'ExampleTrigger',
+			BaseTrigger.triggerNameToInfoMap.get('ExampleTrigger').triggerClassName,
+			'unexpected triggerClassName'
+		);
 	}
 
 	static testMethod void runAfter() {
@@ -620,6 +705,16 @@ private class BaseTrigger_Test {
 
 		System.assertEquals(0, bt.numberOfBeforeRuns, 'Should not have run before');
 		System.assertEquals(1, bt.numberOfAfterRuns, 'Should have one run after');
+
+		System.assertEquals(1, BaseTrigger.triggerNameToInfoMap.keySet().size(), 'should be one key: ' + BaseTrigger.triggerNameToInfoMap);
+		System.assert(BaseTrigger.triggerNameToInfoMap.containsKey('ExampleTrigger'), 'should have key: ' + BaseTrigger.triggerNameToInfoMap);
+		System.assertEquals(0, BaseTrigger.triggerNameToInfoMap.get('ExampleTrigger').numberOfBeforeRuns, 'should be no numberOfBeforeRuns');
+		System.assertEquals(1, BaseTrigger.triggerNameToInfoMap.get('ExampleTrigger').numberOfAfterRuns, 'should be one numberOfAfterRuns');
+		System.assertEquals(
+			'ExampleTrigger',
+			BaseTrigger.triggerNameToInfoMap.get('ExampleTrigger').triggerClassName,
+			'unexpected triggerClassName'
+		);
 	}
 
 	static testMethod void run_isBefore() {
@@ -674,5 +769,143 @@ private class BaseTrigger_Test {
 
 		System.assertEquals(0, bt.numberOfBeforeRuns, 'Should not have run before');
 		System.assertEquals(0, bt.numberOfAfterRuns, 'Should not have run after');
+	}
+
+	static testMethod void run_twoTriggers_isBefore() {
+		ExampleTrigger bt = new ExampleTrigger();
+		bt.isBefore = true;
+		bt.baseNewObjs = new List<SObject> {TestUtils.getAccount()};
+
+		OtherTrigger ot = new OtherTrigger();
+		ot.isBefore = true;
+		ot.baseNewObjs = new List<SObject> {TestUtils.getAccount()};
+
+		System.assertEquals(0, bt.numberOfBeforeRuns, 'should not have run before');
+		System.assertEquals(0, bt.numberOfAfterRuns, 'should not have run after');
+
+		System.assertEquals(0, ot.numberOfBeforeRuns, 'should not have run before');
+		System.assertEquals(0, ot.numberOfAfterRuns, 'should not have run after');
+
+		Test.startTest();
+		bt.run();
+		ot.run();
+		Test.stopTest();
+
+		System.assertEquals(1, bt.numberOfBeforeRuns, 'should have one run before');
+		System.assertEquals(0, bt.numberOfAfterRuns, 'should not have run after');
+
+		System.assertEquals(1, ot.numberOfBeforeRuns, 'should have one run before');
+		System.assertEquals(0, ot.numberOfAfterRuns, 'should not have run after');
+
+		System.assertEquals(2, BaseTrigger.triggerNameToInfoMap.keySet().size(), 'should be one key: ' + BaseTrigger.triggerNameToInfoMap);
+
+		System.assert(BaseTrigger.triggerNameToInfoMap.containsKey('ExampleTrigger'), 'should have key: ' + BaseTrigger.triggerNameToInfoMap);
+		System.assert(BaseTrigger.triggerNameToInfoMap.containsKey('OtherTrigger'), 'should have key: ' + BaseTrigger.triggerNameToInfoMap);
+		System.assertEquals(1, BaseTrigger.triggerNameToInfoMap.get('ExampleTrigger').numberOfBeforeRuns, 'should be one numberOfBeforeRuns');
+		System.assertEquals(0, BaseTrigger.triggerNameToInfoMap.get('ExampleTrigger').numberOfAfterRuns, 'should be no numberOfAfterRuns');
+		System.assertEquals(
+			'ExampleTrigger',
+			BaseTrigger.triggerNameToInfoMap.get('ExampleTrigger').triggerClassName,
+			'unexpected triggerClassName'
+		);
+
+		System.assertEquals(1, BaseTrigger.triggerNameToInfoMap.get('OtherTrigger').numberOfBeforeRuns, 'should be one numberOfBeforeRuns');
+		System.assertEquals(0, BaseTrigger.triggerNameToInfoMap.get('OtherTrigger').numberOfAfterRuns, 'should be no numberOfAfterRuns');
+		System.assertEquals(
+			'OtherTrigger',
+			BaseTrigger.triggerNameToInfoMap.get('OtherTrigger').triggerClassName,
+			'unexpected triggerClassName'
+		);
+	}
+
+	static testMethod void run_twoTriggers_isAfter() {
+		ExampleTrigger bt = new ExampleTrigger();
+		bt.isBefore = false;
+		bt.baseNewObjs = new List<SObject> {TestUtils.getAccount()};
+
+		OtherTrigger ot = new OtherTrigger();
+		ot.isBefore = false;
+		ot.baseNewObjs = new List<SObject> {TestUtils.getAccount()};
+
+		System.assertEquals(0, bt.numberOfBeforeRuns, 'should not have run before');
+		System.assertEquals(0, bt.numberOfAfterRuns, 'should not have run after');
+
+		System.assertEquals(0, ot.numberOfBeforeRuns, 'should not have run before');
+		System.assertEquals(0, ot.numberOfAfterRuns, 'should not have run after');
+
+		Test.startTest();
+		bt.run();
+		ot.run();
+		Test.stopTest();
+
+		System.assertEquals(0, bt.numberOfBeforeRuns, 'should not have run before');
+		System.assertEquals(1, bt.numberOfAfterRuns, 'should have one run after');
+
+		System.assertEquals(0, ot.numberOfBeforeRuns, 'should not have run before');
+		System.assertEquals(1, ot.numberOfAfterRuns, 'should have one run after');
+
+		System.assertEquals(2, BaseTrigger.triggerNameToInfoMap.keySet().size(), 'should be one key: ' + BaseTrigger.triggerNameToInfoMap);
+
+		System.assert(BaseTrigger.triggerNameToInfoMap.containsKey('ExampleTrigger'), 'should have key: ' + BaseTrigger.triggerNameToInfoMap);
+		System.assert(BaseTrigger.triggerNameToInfoMap.containsKey('OtherTrigger'), 'should have key: ' + BaseTrigger.triggerNameToInfoMap);
+		System.assertEquals(0, BaseTrigger.triggerNameToInfoMap.get('ExampleTrigger').numberOfBeforeRuns, 'should be no numberOfBeforeRuns');
+		System.assertEquals(1, BaseTrigger.triggerNameToInfoMap.get('ExampleTrigger').numberOfAfterRuns, 'should be one numberOfAfterRuns');
+		System.assertEquals(
+			'ExampleTrigger',
+			BaseTrigger.triggerNameToInfoMap.get('ExampleTrigger').triggerClassName,
+			'unexpected triggerClassName'
+		);
+
+		System.assertEquals(0, BaseTrigger.triggerNameToInfoMap.get('OtherTrigger').numberOfBeforeRuns, 'should be no numberOfBeforeRuns');
+		System.assertEquals(1, BaseTrigger.triggerNameToInfoMap.get('OtherTrigger').numberOfAfterRuns, 'should be one numberOfAfterRuns');
+		System.assertEquals(
+			'OtherTrigger',
+			BaseTrigger.triggerNameToInfoMap.get('OtherTrigger').triggerClassName,
+			'unexpected triggerClassName'
+		);
+	}
+
+	static testMethod void constructor_doubleInstantiation_valid() {
+		ExampleTrigger bt = new ExampleTrigger();
+		bt.isBefore = false;
+		bt.baseNewObjs = new List<SObject> {TestUtils.getAccount()};
+		bt.run();
+
+		System.assertEquals(0, bt.numberOfBeforeRuns, 'should not have run before');
+		System.assertEquals(1, bt.numberOfAfterRuns, 'should have one run after');
+
+		Test.startTest();
+		ExampleTrigger bt2 = new ExampleTrigger();
+		Test.stopTest();
+
+		System.assertEquals(0, bt.numberOfBeforeRuns, 'should not have run before');
+		System.assertEquals(1, bt.numberOfAfterRuns, 'should have one run after');
+
+		System.assertEquals(0, bt2.numberOfBeforeRuns, 'should not have run before');
+		System.assertEquals(1, bt2.numberOfAfterRuns, 'should have one run after');
+	}
+
+	static testMethod void constructor_doubleInstantiation_staysInSync() {
+		ExampleTrigger bt = new ExampleTrigger();
+		bt.isBefore = false;
+		bt.baseNewObjs = new List<SObject> {TestUtils.getAccount()};
+		bt.run();
+
+		System.assertEquals(0, bt.numberOfBeforeRuns, 'should not have run before');
+		System.assertEquals(1, bt.numberOfAfterRuns, 'should have one run after');
+
+		ExampleTrigger bt2 = new ExampleTrigger();
+		bt2.isBefore = false;
+		bt2.baseNewObjs = new List<SObject> {TestUtils.getAccount()};
+
+		Test.startTest();
+		bt2.run();
+		Test.stopTest();
+
+		System.assertEquals(0, bt.numberOfBeforeRuns, 'should not have run before');
+		System.assertEquals(2, bt.numberOfAfterRuns, 'should have twice run after');
+
+		System.assertEquals(0, bt2.numberOfBeforeRuns, 'should not have run before');
+		System.assertEquals(2, bt2.numberOfAfterRuns, 'should have twice run after');
 	}
 }

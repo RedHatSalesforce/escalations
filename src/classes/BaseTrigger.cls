@@ -2,9 +2,60 @@
 * A Base trigger that other triggers can inherit from
 *
 * @author Daniel Fisher (dfisher@redhat.com)
-* @testClasses BaseTriggerTest
+* @testClasses BaseTrigger_Test
 */
-public with sharing virtual class BaseTrigger {
+public with sharing abstract class BaseTrigger {
+	@TestVisible static private Map<String, TriggerInfo> triggerNameToInfoMap = new Map<String, TriggerInfo>();
+
+	@TestVisible
+	private class TriggerInfo {
+		@TestVisible private String triggerClassName;
+		@TestVisible private Integer numberOfBeforeRuns;
+		@TestVisible private Integer numberOfAfterRuns;
+
+		/**
+		* Bare constructor
+		*/
+		@TestVisible
+		private TriggerInfo() {
+			this.numberOfBeforeRuns = 0;
+			this.numberOfAfterRuns = 0;
+		}
+
+		/**
+		* Constructor that takes the trigger's class name
+		*
+		* @param triggerClassName the name of the trigger to capture info for
+		*/
+		public TriggerInfo(String triggerClassName) {
+			this();
+			this.triggerClassName = triggerClassName;
+		}
+
+		/**
+		* The trigger has been 'run-before', this object will track that running
+		*/
+		@TestVisible
+		private void iterateRunBefore() {
+			this.numberOfBeforeRuns += 1;
+		}
+
+		/**
+		* The trigger has been 'run-after', this object will track that running
+		*/
+		@TestVisible
+		private void iterateRunAfter() {
+			this.numberOfAfterRuns += 1;
+		}
+	}
+
+	@TestVisible protected TriggerInfo triggerInfo {
+		get {
+			return triggerNameToInfoMap.get(this.getTriggerName());
+		}
+		set;
+	}
+
 	/** If the trigger should be skipped */
 	@TestVisible protected Boolean triggerShouldBeSkippedByDefault = false;
 
@@ -22,10 +73,7 @@ public with sharing virtual class BaseTrigger {
 	/** The number of times the trigger has been run as a before */
 	@TestVisible protected Integer numberOfBeforeRuns {
 		get {
-			if (this.numberOfBeforeRuns == null) {
-				this.numberOfBeforeRuns = 0;
-			}
-			return this.numberOfBeforeRuns;
+			return this.triggerInfo.numberOfBeforeRuns;
 		}
 		set;
 	}
@@ -33,10 +81,7 @@ public with sharing virtual class BaseTrigger {
 	/** The number of times the trigger has been run as an after */
 	@TestVisible protected Integer numberOfAfterRuns {
 		get {
-			if (this.numberOfAfterRuns == null) {
-				this.numberOfAfterRuns = 0;
-			}
-			return this.numberOfAfterRuns;
+			return this.triggerInfo.numberOfAfterRuns;
 		}
 		set;
 	}
@@ -52,7 +97,7 @@ public with sharing virtual class BaseTrigger {
 		set;
 	}
 
-	/** The new map of objects */
+	/** The new list of objects */
 	@TestVisible protected List<SObject> baseNewObjs {
 		get {
 			if (this.baseNewObjs == null) {
@@ -131,7 +176,13 @@ public with sharing virtual class BaseTrigger {
 	* Bare constructor
 	*/
 	@TestVisible
-	private BaseTrigger() {}
+	private BaseTrigger() {
+		String triggerName = this.getTriggerName();
+
+		if (!triggerNameToInfoMap.containsKey(triggerName)) {
+			triggerNameToInfoMap.put(triggerName, new TriggerInfo(triggerName));
+		}
+	}
 
 	/**
 	* The constructor
@@ -150,11 +201,18 @@ public with sharing virtual class BaseTrigger {
 	}
 
 	/**
+	* This will be overridden by a child-class
+	*
+	* @return a unique string that will allow the centralization of static information in the BaseTrigger class
+	*/
+	public abstract String getTriggerName();
+
+	/**
 	* Perform actions that should be done in the 'before' part of a trigger
 	*/
 	@TestVisible
 	protected virtual void runBefore() {
-		this.numberOfBeforeRuns += 1;
+		this.triggerInfo.iterateRunBefore();
 	}
 
 	/**
@@ -162,7 +220,7 @@ public with sharing virtual class BaseTrigger {
 	*/
 	@TestVisible
 	protected virtual void runAfter() {
-		this.numberOfAfterRuns += 1;
+		this.triggerInfo.iterateRunAfter();
 	}
 
 	/**
