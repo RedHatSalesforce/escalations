@@ -30,4 +30,14 @@ public with sharing class EscalationUtils {
 	public static Map<Id, rh_escal__Escalation__c> getEscalationMap(Set<Id> ids) {
 		return new Map<Id, rh_escal__Escalation__c>(getEscalations(ids));
 	}
+
+	/**
+	* Gets an escalation
+	*
+	* @param id The id to query
+	* @return The escalation
+	*/
+	public static rh_escal__Escalation__c getEscalation(Id id) {
+		return getEscalationMap(new Set<Id> {id}).get(id);
+	}
 }

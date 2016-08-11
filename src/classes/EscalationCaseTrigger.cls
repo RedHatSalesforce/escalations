@@ -5,6 +5,12 @@
 * @testClasses EscalationCaseTrigger_Trigger
 */
 public with sharing class EscalationCaseTrigger extends BaseTrigger {
+	/** Error message text for when the last case on an escalation has it's primary flag unchecked */
+	@TestVisible private static String MSG_LAST_CASE_MUST_BE_PRIMARY = 'The only case associated with an escalation must be the primary case';
+
+	/** Erorr message text for when a bulk update is attempted */
+	@TestVisible private static String MSG_NO_BULK_UPDATE = 'Currently bulk updates of escalation cases are not supported';
+
 	/** The old map of objects */
 	@TestVisible Map<Id, rh_escal__EscalationCase__c> oldMap {
 		get {
@@ -16,7 +22,15 @@ public with sharing class EscalationCaseTrigger extends BaseTrigger {
 	/** The new map of objects */
 	@TestVisible Map<Id, rh_escal__EscalationCase__c> newMap {
 		get {
-			return (Map<Id, rh_escal__EscalationCase__c>) ((BaseTrigger) this).baseNewMap;
+			if (this.newMap == null) {
+				this.newMap = new Map<Id, rh_escal__EscalationCase__c>();
+
+				if (!this.isBefore && !this.newObjs.isEmpty()) {
+                    this.newMap = new Map<Id, rh_escal__EscalationCase__c>(this.newObjs);
+                }
+			}
+
+			return this.newMap;
 		}
 		set;
 	}
@@ -71,7 +85,7 @@ public with sharing class EscalationCaseTrigger extends BaseTrigger {
 
 		for (rh_escal__EscalationCase__c escalationCase : this.newObjs) {
 			rh_escal__Escalation__c escalation = escalationMap.get(escalationCase.rh_escal__Escalation__c);
-			Boolean wantsToBePrimary = escalationCase.rh_escal__Primary__c == true;
+			Boolean wantsToBePrimary = (escalationCase.rh_escal__Primary__c == true);
 			Boolean alreadyHasPrimary = escalationsToUpdate.containsKey(escalationCase.rh_escal__Escalation__c);
 
 			if (
@@ -106,7 +120,7 @@ public with sharing class EscalationCaseTrigger extends BaseTrigger {
 			String identifier = '' + escalationCase.rh_escal__Escalation__c + escalationCase.rh_escal__Case__c;
 
 			Boolean alreadySetPrimary = escalationsToUpdate.containsKey(escalationCase.rh_escal__Escalation__c);
-			Boolean alreadyHasPrimary = escalation.rh_escal__PrimaryCase__c != null;
+			Boolean alreadyHasPrimary = (escalation.rh_escal__PrimaryCase__c != null);
 			Boolean isNewPrimary = newPrimaryIdentifierSet.contains(identifier);
 
 			if (alreadySetPrimary || alreadyHasPrimary) {
@@ -138,6 +152,92 @@ public with sharing class EscalationCaseTrigger extends BaseTrigger {
 	}
 
 	/**
+	* Reset the primary case to the oldest (non-same) case on an escalation when the
+	* primary flag is removed from the escalation
+	*/
+	@TestVisible
+	private void setPrimaryCaseOnUpdate() {
+		if (!this.isUpdate) {
+			return;
+		}
+
+		// This is bad and should be addressed.  But given time constraint #6 was filed
+		if (this.isBulk) {
+			throw new BaseTrigger.NoBulkException(MSG_NO_BULK_UPDATE);
+		}
+
+		// This .get is bit rediculous but until #6 is addressed it's the best way to get
+		// test coverage for the this.newMap code
+		rh_escal__EscalationCase__c escalationCase = this.newMap.get(this.newObjs.get(0).Id);
+		rh_escal__EscalationCase__c oldEscalationCase = this.oldMap.get(escalationCase.Id);
+		rh_escal__Escalation__c escalation = EscalationUtils.getEscalation(escalationCase.rh_escal__Escalation__c);
+
+		Map<Id, List<rh_escal__EscalationCase__c>> existingEscalationCases = EscalationCaseUtils.getEscalationCasesForEscalations(new Set<Id> {escalationCase.rh_escal__Escalation__c});
+
+		List<rh_escal__Escalation__c> escalationsToUpdate = new List<rh_escal__Escalation__c>();
+		List<rh_escal__EscalationCase__c> escalationCasesToUpdate = new List<rh_escal__EscalationCase__c>();
+
+		// We've got a new primary.  Need to set the old primary to false and update the
+		// parent escalation
+		if (escalationCase.rh_escal__Primary__c) {
+			escalationsToUpdate.add(new rh_escal__Escalation__c(
+				Id = escalationCase.rh_escal__Escalation__c,
+				rh_escal__PrimaryCase__c = escalationCase.rh_escal__Case__c
+			));
+
+			for (rh_escal__EscalationCase__c otherEscalationCase : existingEscalationCases.get(escalationCase.rh_escal__Escalation__c)) {
+				if (escalationCase.Id == otherEscalationCase.Id) {
+					continue;
+				}
+
+				if (otherEscalationCase.rh_escal__Primary__c) {
+					escalationCasesToUpdate.add(new rh_escal__EscalationCase__c(
+						Id = otherEscalationCase.Id,
+						rh_escal__Primary__c = false
+					));
+				}
+			}
+		} else if (escalation.rh_escal__PrimaryCase__c == escalationCase.rh_escal__Case__c) {
+			// We're removing the old primary
+			Id newPrimary = null;
+			Id newPrimaryCase = null;
+
+			for (rh_escal__EscalationCase__c otherEscalationCase : existingEscalationCases.get(escalationCase.rh_escal__Escalation__c)) {
+				if (escalationCase.Id == otherEscalationCase.Id) {
+					continue;
+				}
+
+				newPrimary = otherEscalationCase.Id;
+				newPrimaryCase = otherEscalationCase.rh_escal__Case__c;
+				break;
+			}
+
+			if (newPrimary == null) {
+				this.newObjs.get(0).rh_escal__Primary__c.addError(MSG_LAST_CASE_MUST_BE_PRIMARY);
+				return;
+			}
+
+			escalationsToUpdate.add(new rh_escal__Escalation__c(
+				Id = escalationCase.rh_escal__Escalation__c,
+				rh_escal__PrimaryCase__c = newPrimaryCase
+			));
+
+			escalationCasesToUpdate.add(new rh_escal__EscalationCase__c(
+				Id = newPrimary,
+				rh_escal__Primary__c = true
+			));
+		}
+
+		if (!escalationsToUpdate.isEmpty()) {
+			update escalationsToUpdate;
+		}
+
+		if (!escalationCasesToUpdate.isEmpty()) {
+			update escalationCasesToUpdate;
+		}
+	}
+
+	/**
 	* Sets the primary case (or clears it) when the primary is deleted
 	*/
 	@TestVisible
@@ -164,7 +264,7 @@ public with sharing class EscalationCaseTrigger extends BaseTrigger {
 		}
 
 		Map<Id, rh_escal__Escalation__c> escalationMap = EscalationUtils.getEscalationMap(escalationIds);
-		Map<Id, List<rh_escal__EscalationCase__c>> existingEscalationCases = EscalationCaseUtils.getEscalationCasesForEscalations(escalationMap.keySet());
+		Map<Id, List<rh_escal__EscalationCase__c>> existingEscalationCases = EscalationCaseUtils.getEscalationCasesForEscalations(escalationIds);
 
 		List<rh_escal__Escalation__c> escalationsToUpdate = new List<rh_escal__Escalation__c>();
 		List<rh_escal__EscalationCase__c> escalationCasesToUpdate = new List<rh_escal__EscalationCase__c>();
@@ -226,6 +326,10 @@ public with sharing class EscalationCaseTrigger extends BaseTrigger {
 	@TestVisible
 	protected override void runAfter() {
 		super.runAfter();
+
+		if (this.numberOfBeforeRuns == 1 && this.numberOfAfterRuns == 1) {
+			this.setPrimaryCaseOnUpdate();
+		}
 
 		if (this.numberOfAfterRuns == 1) {
 			this.setPrimaryCaseOnDelete();

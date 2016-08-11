@@ -5,12 +5,22 @@
 * @testClasses BaseTrigger_Test
 */
 public with sharing abstract class BaseTrigger {
+	/** An exception to be thrown when a method doesn't support bulk operations */
+	public class NoBulkException extends Exception {}
+
+	/** The map of trigger names to their info class */
 	@TestVisible static private Map<String, TriggerInfo> triggerNameToInfoMap = new Map<String, TriggerInfo>();
 
+	/** Class to keep track of trigger run information */
 	@TestVisible
 	private class TriggerInfo {
+		/** The name of the trigger */
 		@TestVisible private String triggerClassName;
+
+		/** The number of times the before trigger has been run */
 		@TestVisible private Integer numberOfBeforeRuns;
+
+		/** The number of times the after trigger was run */
 		@TestVisible private Integer numberOfAfterRuns;
 
 		/**
@@ -49,6 +59,7 @@ public with sharing abstract class BaseTrigger {
 		}
 	}
 
+	/** The trigger information for the current trigger */
 	@TestVisible protected TriggerInfo triggerInfo {
 		get {
 			return triggerNameToInfoMap.get(this.getTriggerName());

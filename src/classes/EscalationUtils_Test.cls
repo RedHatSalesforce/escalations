@@ -68,4 +68,18 @@ private class EscalationUtils_Test {
 
 		System.assert(expectedResults.isEmpty(), 'Did not get back all the expected results');
 	}
+
+	static testMethod void getEscalation() {
+		rh_escal__Escalation__c testEscalation = TestUtils.getEscalation();
+
+		insert testEscalation;
+
+		Test.startTest();
+
+		rh_escal__Escalation__c result = EscalationUtils.getEscalation(testEscalation.Id);
+
+		Test.stopTest();
+
+		System.assertEquals(testEscalation.rh_escal__Subject__c, result.rh_escal__Subject__c, 'Got the wrong escalation back');
+	}
 }
