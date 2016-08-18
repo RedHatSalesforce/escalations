@@ -26,8 +26,8 @@ public with sharing class EscalationCaseTrigger extends BaseTrigger {
 				this.newMap = new Map<Id, rh_escal__EscalationCase__c>();
 
 				if (!this.isBefore && !this.newObjs.isEmpty()) {
-                    this.newMap = new Map<Id, rh_escal__EscalationCase__c>(this.newObjs);
-                }
+					this.newMap = new Map<Id, rh_escal__EscalationCase__c>(this.newObjs);
+				}
 			}
 
 			return this.newMap;
