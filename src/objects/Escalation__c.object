@@ -47,6 +47,7 @@
     <allowInChatterGroups>true</allowInChatterGroups>
     <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
     <deploymentStatus>Deployed</deploymentStatus>
+    <deprecated>false</deprecated>
     <description>The primary object used to store data about the escalation</description>
     <enableActivities>true</enableActivities>
     <enableBulkApi>true</enableBulkApi>
@@ -57,7 +58,20 @@
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
     <fields>
+        <fullName>ActionPlan__c</fullName>
+        <description>Records the action plan to resolve the escalation.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Records the action plan to resolve the escalation.</inlineHelpText>
+        <label>Action Plan</label>
+        <length>131072</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
         <fullName>CaseCount__c</fullName>
+        <deprecated>false</deprecated>
         <description>The number of cases associated with the Escalation</description>
         <externalId>false</externalId>
         <inlineHelpText>The number of cases associated with the Escalation</inlineHelpText>
@@ -70,6 +84,7 @@
     </fields>
     <fields>
         <fullName>CommentCount__c</fullName>
+        <deprecated>false</deprecated>
         <description>The number of comments</description>
         <externalId>false</externalId>
         <formula>PrivateCommentCount__c +  PublicCommentCount__c</formula>
@@ -86,6 +101,7 @@
     </fields>
     <fields>
         <fullName>Description__c</fullName>
+        <deprecated>false</deprecated>
         <description>The description of the issue</description>
         <externalId>false</externalId>
         <inlineHelpText>The description of the issue</inlineHelpText>
@@ -98,6 +114,7 @@
     </fields>
     <fields>
         <fullName>LastCommentDate__c</fullName>
+        <deprecated>false</deprecated>
         <description>When the last comment was made</description>
         <externalId>false</externalId>
         <formula>IF(LastPrivateCommentDate__c &gt; LastPublicCommentDate__c, LastPrivateCommentDate__c, LastPublicCommentDate__c)</formula>
@@ -110,6 +127,7 @@
     </fields>
     <fields>
         <fullName>LastPrivateCommentDate__c</fullName>
+        <deprecated>false</deprecated>
         <description>When the last private comment was made</description>
         <externalId>false</externalId>
         <inlineHelpText>When the last private comment was made</inlineHelpText>
@@ -128,6 +146,7 @@
     </fields>
     <fields>
         <fullName>LastPublicCommentDate__c</fullName>
+        <deprecated>false</deprecated>
         <description>When the last public comment was made</description>
         <externalId>false</externalId>
         <inlineHelpText>When the last public comment was made</inlineHelpText>
@@ -146,6 +165,7 @@
     </fields>
     <fields>
         <fullName>LastUpdateDate__c</fullName>
+        <deprecated>false</deprecated>
         <description>When the last update was made</description>
         <externalId>false</externalId>
         <formula>IF( LastModifiedDate &gt; LastCommentDate__c, LastModifiedDate, LastCommentDate__c)</formula>
@@ -157,8 +177,21 @@
         <type>DateTime</type>
     </fields>
     <fields>
+        <fullName>PreventativeActionPlan__c</fullName>
+        <description>Records the plan for how to prevent this type of escalation being raised again in the future.  Contains the closed-loop plan.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Records the plan for how to prevent this type of escalation being raised again in the future.  Contains the closed-loop plan.</inlineHelpText>
+        <label>Preventative Action Plan</label>
+        <length>32768</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
         <fullName>PrimaryCase__c</fullName>
         <deleteConstraint>SetNull</deleteConstraint>
+        <deprecated>false</deprecated>
         <description>The primary case for the escalation</description>
         <externalId>false</externalId>
         <inlineHelpText>The primary case for the escalation</inlineHelpText>
@@ -173,6 +206,7 @@
     </fields>
     <fields>
         <fullName>PrivateCommentCount__c</fullName>
+        <deprecated>false</deprecated>
         <description>The number of private comments</description>
         <externalId>false</externalId>
         <inlineHelpText>The number of private comments</inlineHelpText>
@@ -190,6 +224,7 @@
     </fields>
     <fields>
         <fullName>PublicCommentCount__c</fullName>
+        <deprecated>false</deprecated>
         <description>The number of public comments</description>
         <externalId>false</externalId>
         <inlineHelpText>The number of public comments</inlineHelpText>
@@ -207,6 +242,7 @@
     </fields>
     <fields>
         <fullName>Subject__c</fullName>
+        <deprecated>false</deprecated>
         <description>The subject of the issue</description>
         <externalId>false</externalId>
         <inlineHelpText>The subject of the issue</inlineHelpText>
@@ -220,6 +256,7 @@
     </fields>
     <fields>
         <fullName>Tier__c</fullName>
+        <deprecated>false</deprecated>
         <description>The escalation tier</description>
         <externalId>false</externalId>
         <inlineHelpText>The escalation tier</inlineHelpText>
@@ -240,6 +277,7 @@
             <restrictedPicklist>true</restrictedPicklist>
             <sorted>false</sorted>
         </picklist>
+        <required>false</required>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Picklist</type>

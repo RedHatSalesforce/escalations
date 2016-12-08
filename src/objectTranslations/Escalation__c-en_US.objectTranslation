@@ -9,6 +9,11 @@
         <value>Escalations</value>
     </caseValues>
     <fields>
+        <help><!-- Records the action plan to resolve the escalation. --></help>
+        <label><!-- Action Plan --></label>
+        <name>ActionPlan__c</name>
+    </fields>
+    <fields>
         <help><!-- The number of cases associated with the Escalation --></help>
         <label><!-- Case Count --></label>
         <name>CaseCount__c</name>
@@ -42,6 +47,11 @@
         <help><!-- When the last update was made --></help>
         <label><!-- Last Update Date --></label>
         <name>LastUpdateDate__c</name>
+    </fields>
+    <fields>
+        <help><!-- Records the plan for how to prevent this type of escalation being raised again in the future.  Contains the closed-loop plan. --></help>
+        <label><!-- Preventative Action Plan --></label>
+        <name>PreventativeActionPlan__c</name>
     </fields>
     <fields>
         <help><!-- The primary case for the escalation --></help>
@@ -83,6 +93,10 @@
     </fields>
     <layouts>
         <layout>Escalation Layout</layout>
+        <sections>
+            <label><!-- Action Plan --></label>
+            <section>Action Plan</section>
+        </sections>
         <sections>
             <label><!-- Custom Links --></label>
             <section>Custom Links</section>

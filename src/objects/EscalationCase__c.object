@@ -47,6 +47,7 @@
     <allowInChatterGroups>false</allowInChatterGroups>
     <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
     <deploymentStatus>Deployed</deploymentStatus>
+    <deprecated>false</deprecated>
     <description>The pairing of an Escalation and a Case</description>
     <enableActivities>false</enableActivities>
     <enableBulkApi>true</enableBulkApi>
@@ -58,6 +59,7 @@
     <enableStreamingApi>true</enableStreamingApi>
     <fields>
         <fullName>Case__c</fullName>
+        <deprecated>false</deprecated>
         <description>The case associated with the escalation</description>
         <externalId>false</externalId>
         <inlineHelpText>The case associated with the escalation</inlineHelpText>
@@ -73,6 +75,7 @@
     </fields>
     <fields>
         <fullName>Escalation__c</fullName>
+        <deprecated>false</deprecated>
         <description>The escalation to associate</description>
         <externalId>false</externalId>
         <inlineHelpText>The escalation to associate</inlineHelpText>
@@ -89,6 +92,7 @@
     <fields>
         <fullName>Primary__c</fullName>
         <defaultValue>false</defaultValue>
+        <deprecated>false</deprecated>
         <description>If this case is the primary case associated with the escalation</description>
         <externalId>false</externalId>
         <inlineHelpText>If this case is the primary case associated with the escalation</inlineHelpText>
