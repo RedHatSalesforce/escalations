@@ -5,7 +5,7 @@
 */
 
 @IsTest
-public class TestUtils {
+global class TestUtils {
 	/** The number that the identifiers should be incremented by */
 	@TestVisible private static Integer STANDARD_INC = 1000000;
 
@@ -24,7 +24,7 @@ public class TestUtils {
 	* @param base The base (or upper bounds) for the random number
 	* @return A random integer between 0 and the base
 	*/
-	public static Integer getRandomInteger(Integer base) {
+	global static Integer getRandomInteger(Integer base) {
 		return math.round(math.random() * base);
 	}
 
@@ -47,7 +47,7 @@ public class TestUtils {
 	*
 	* @return A new account
 	*/
-	public static Account getAccount() {
+	global static Account getAccount() {
 		Integer randInt = ACCT_COUNT + getRandomInteger(STANDARD_RAND); // Should be smaller than ACCT_INC
 		ACCT_COUNT += ACCT_INC;
 		return getAccount(String.valueOf(randInt), '_unittest_account: ' + ACCT_COUNT);
@@ -59,7 +59,7 @@ public class TestUtils {
 	* @param account The account to pair the case to
 	* @return A new Case
 	*/
-	public static Case getCase(Account account) {
+	global static Case getCase(Account account) {
 		return new Case(
 			AccountId = account.Id
 		);
@@ -70,7 +70,7 @@ public class TestUtils {
 	*
 	* @return An escalation
 	*/
-	public static rh_escal__Escalation__c getEscalation() {
+	global static rh_escal__Escalation__c getEscalation() {
 		return new rh_escal__Escalation__c(
 			rh_escal__Subject__c = '_unittest_subject: ' + getRandomInteger(1000)
 		);
@@ -82,7 +82,7 @@ public class TestUtils {
 	* @param escalation The escalation to query
 	* @return The queried escalation
 	*/
-	public static rh_escal__Escalation__c fetchEscalation(rh_escal__Escalation__c escalation) {
+	global static rh_escal__Escalation__c fetchEscalation(rh_escal__Escalation__c escalation) {
 		return [
 			select rh_escal__PrimaryCase__c
 			from rh_escal__Escalation__c
@@ -97,7 +97,7 @@ public class TestUtils {
 	* @param kase The case to pair
 	* @return The escalation case pairing
 	*/
-	public static rh_escal__EscalationCase__c getEscalationCase(rh_escal__Escalation__c escalation, Case kase) {
+	global static rh_escal__EscalationCase__c getEscalationCase(rh_escal__Escalation__c escalation, Case kase) {
 		return new rh_escal__EscalationCase__c(
 			rh_escal__Escalation__c = escalation.Id,
 			rh_escal__Case__c = kase.Id
@@ -110,7 +110,7 @@ public class TestUtils {
 	* @param escalationCase The escalation case to query
 	* @return The queried escalation case
 	*/
-	public static rh_escal__EscalationCase__c fetchEscalationCase(rh_escal__EscalationCase__c escalationCase) {
+	global static rh_escal__EscalationCase__c fetchEscalationCase(rh_escal__EscalationCase__c escalationCase) {
 		return [
 			select rh_escal__Case__c,
 				rh_escal__Escalation__c,

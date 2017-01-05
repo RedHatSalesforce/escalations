@@ -4,14 +4,14 @@
 * @author Patrick Connelly (patrick@deadlypenguin.com)
 * @testClasses EscalationUtils_Test
 */
-public with sharing class EscalationUtils {
+global with sharing class EscalationUtils {
 	/**
 	* Gets a list of escalations for a give id set
 	*
 	* @param ids The escalation ids to query
 	* @return The escalations
 	*/
-	public static List<rh_escal__Escalation__c> getEscalations(Set<Id> ids) {
+	global static List<rh_escal__Escalation__c> getEscalations(Set<Id> ids) {
 		return [
 			select rh_escal__CaseCount__c,
 				rh_escal__PrimaryCase__c,
@@ -27,7 +27,7 @@ public with sharing class EscalationUtils {
 	* @param ids The escalation ids to query
 	* @return The map of ids to escalations
 	*/
-	public static Map<Id, rh_escal__Escalation__c> getEscalationMap(Set<Id> ids) {
+	global static Map<Id, rh_escal__Escalation__c> getEscalationMap(Set<Id> ids) {
 		return new Map<Id, rh_escal__Escalation__c>(getEscalations(ids));
 	}
 
@@ -37,7 +37,7 @@ public with sharing class EscalationUtils {
 	* @param id The id to query
 	* @return The escalation
 	*/
-	public static rh_escal__Escalation__c getEscalation(Id id) {
+	global static rh_escal__Escalation__c getEscalation(Id id) {
 		return getEscalationMap(new Set<Id> {id}).get(id);
 	}
 }
