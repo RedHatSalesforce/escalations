@@ -5,6 +5,8 @@
 * @testClasses EscalationCaseUtils_Test
 */
 public with sharing class EscalationCaseUtils {
+	public static final String CASE_ALREADY_LINKED = 'Case is already linked to the escalation, please try linking another case';
+
 	/**
 	* Gets the escalation ids for a given list of escalation cases
 	*
