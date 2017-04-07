@@ -9,6 +9,12 @@
         <value>Escalations</value>
     </caseValues>
     <fields>
+        <help><!-- The primary case for the escalation. --></help>
+        <label><!-- Account --></label>
+        <name>Account__c</name>
+        <relationshipLabel><!-- Escalations --></relationshipLabel>
+    </fields>
+    <fields>
         <help><!-- Records the action plan to resolve the escalation. --></help>
         <label><!-- Action Plan --></label>
         <name>ActionPlan__c</name>

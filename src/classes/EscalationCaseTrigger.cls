@@ -2,7 +2,7 @@
 * Trigger work for escalation cases
 *
 * @author Patrick Connelly (patrick@deadlypenguin.com)
-* @testClasses EscalationCaseTrigger_Trigger
+* @testClasses EscalationCaseTrigger_Test
 */
 public with sharing class EscalationCaseTrigger extends BaseTrigger {
 	/** Error message text for when the last case on an escalation has it's primary flag unchecked */

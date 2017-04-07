@@ -84,7 +84,9 @@ global class TestUtils {
 	*/
 	global static rh_escal__Escalation__c fetchEscalation(rh_escal__Escalation__c escalation) {
 		return [
-			select rh_escal__PrimaryCase__c
+			select rh_escal__Account__c,
+				rh_escal__PrimaryCase__c,
+				rh_escal__PrimaryCase__r.AccountId
 			from rh_escal__Escalation__c
 			where Id = :escalation.Id
 		];

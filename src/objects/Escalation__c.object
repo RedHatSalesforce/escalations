@@ -58,7 +58,23 @@
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
     <fields>
+        <fullName>Account__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>The primary case for the escalation.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The primary case for the escalation.</inlineHelpText>
+        <label>Account</label>
+        <referenceTo>Account</referenceTo>
+        <relationshipLabel>Escalations</relationshipLabel>
+        <relationshipName>Escalations</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
         <fullName>ActionPlan__c</fullName>
+        <deprecated>false</deprecated>
         <description>Records the action plan to resolve the escalation.</description>
         <externalId>false</externalId>
         <inlineHelpText>Records the action plan to resolve the escalation.</inlineHelpText>
@@ -178,6 +194,7 @@
     </fields>
     <fields>
         <fullName>PreventativeActionPlan__c</fullName>
+        <deprecated>false</deprecated>
         <description>Records the plan for how to prevent this type of escalation being raised again in the future.  Contains the closed-loop plan.</description>
         <externalId>false</externalId>
         <inlineHelpText>Records the plan for how to prevent this type of escalation being raised again in the future.  Contains the closed-loop plan.</inlineHelpText>
