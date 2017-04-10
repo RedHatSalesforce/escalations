@@ -48,31 +48,29 @@ global with sharing class EscalationUtils {
 	* @return The map of cases
 	*/
 	public static Map<Id, Case> getCaseMapByIds(Set<Id> caseIds) {
-		return new Map<Id, Case>(
-			[
-				select Account.AccountNumber,
-					Account.Name,
-					AccountId,
-					BusinessHoursId,
-					CaseNumber,
-					OwnerId,
-					Contact.Email,
-					ContactId,
-					Contact.Name,
-					CreatedById,
-					ClosedDate,
-					CreatedDate,
-					LastModifiedById,
-					rh_escal__EngineeringReqNumber__c,
-					rh_escal__PotentialLiability__c,
-					rh_escal__Product__c,
-					rh_escal__SLAViolation__c,
-					Status,
-					Subject,
-					Type
-				From Case
-				Where Id in : caseIds
-			]
-		);
+		return new Map<Id, Case>([
+			select Account.AccountNumber,
+				Account.Name,
+				AccountId,
+				BusinessHoursId,
+				CaseNumber,
+				OwnerId,
+				Contact.Email,
+				ContactId,
+				Contact.Name,
+				CreatedById,
+				ClosedDate,
+				CreatedDate,
+				LastModifiedById,
+				rh_escal__EngineeringReqNumber__c,
+				rh_escal__PotentialLiability__c,
+				rh_escal__Product__c,
+				rh_escal__SLAViolation__c,
+				Status,
+				Subject,
+				Type
+			from Case
+			where Id in :caseIds
+		]);
 	}
 }

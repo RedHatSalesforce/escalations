@@ -76,18 +76,27 @@ public with sharing class EscalationTrigger extends BaseTrigger {
 
 		caseIdSet.remove(null);
 
-		Map<Id, Case> caseMap = new Map<Id, Case>();
-
-		if(!caseIdSet.isEmpty()) {
-			caseMap = EscalationUtils.getCaseMapByIds(caseIdSet);
+		if(caseIdSet.isEmpty()) {
+			return;
 		}
 
+		Map<Id, Case> caseMap = EscalationUtils.getCaseMapByIds(caseIdSet);
+
 		for (rh_escal__Escalation__c escalation : this.newObjs) {
-			if (this.isInsert && escalation.rh_escal__Account__c == null && escalation.rh_escal__PrimaryCase__c != null) {
-				escalation.rh_escal__Account__c = caseMap.get(escalation.rh_escal__PrimaryCase__c).AccountId;
-			} else if (this.isUpdate && escalation.rh_escal__Account__c == null && escalation.rh_escal__PrimaryCase__c != null &&
-				this.oldMap.get(escalation.Id).rh_escal__PrimaryCase__c != escalation.rh_escal__PrimaryCase__c) {
-				escalation.rh_escal__Account__c = caseMap.get(escalation.rh_escal__PrimaryCase__c).AccountId;
+			Boolean nullAccount = (escalation.rh_escal__Account__c == null);
+			Boolean nullPrimaryCase = (escalation.rh_escal__PrimaryCase__c == null);
+			Id primaryCaseId = escalation.rh_escal__primaryCase__c;
+
+			if (
+				nullAccount && !nullPrimaryCase &&
+				(
+					this.isInsert ||
+					(
+						this.oldMap.get(escalation.Id).rh_escal__PrimaryCase__c != escalation.rh_escal__PrimaryCase__c
+					)
+				)
+			) {
+				escalation.rh_escal__Account__c = caseMap.get(primaryCaseId).AccountId;
 			}
 		}
 	}

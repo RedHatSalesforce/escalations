@@ -60,9 +60,9 @@
     <fields>
         <fullName>Account__c</fullName>
         <deleteConstraint>SetNull</deleteConstraint>
-        <description>The primary case for the escalation.</description>
+        <description>The account for the escalation.</description>
         <externalId>false</externalId>
-        <inlineHelpText>The primary case for the escalation.</inlineHelpText>
+        <inlineHelpText>The account for the escalation.</inlineHelpText>
         <label>Account</label>
         <referenceTo>Account</referenceTo>
         <relationshipLabel>Escalations</relationshipLabel>
