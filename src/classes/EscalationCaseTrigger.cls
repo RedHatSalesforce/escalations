@@ -84,6 +84,14 @@ public with sharing class EscalationCaseTrigger extends BaseTrigger {
 		Set<String> newPrimaryIdentifierSet = new Set<String>();
 
 		for (rh_escal__EscalationCase__c escalationCase : this.newObjs) {
+			if (!existingEscalationCases.isEmpty()) {
+				for (rh_escal__EscalationCase__c existingEscalationCase : existingEscalationCases.get(escalationCase.rh_escal__Escalation__c)) {
+					if (escalationCase.rh_escal__Case__c == existingEscalationCase.rh_escal__Case__c) {
+						escalationCase.addError(EscalationCaseUtils.CASE_ALREADY_LINKED);
+					}
+				}
+			}
+
 			rh_escal__Escalation__c escalation = escalationMap.get(escalationCase.rh_escal__Escalation__c);
 			Boolean wantsToBePrimary = (escalationCase.rh_escal__Primary__c == true);
 			Boolean alreadyHasPrimary = escalationsToUpdate.containsKey(escalationCase.rh_escal__Escalation__c);

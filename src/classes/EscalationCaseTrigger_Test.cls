@@ -522,4 +522,83 @@ private class EscalationCaseTrigger_Test {
 		System.assert(!testEscalationCase3.rh_escal__Primary__c, 'The escalation case should not have been marked as primary');
 	}
 
+	/////////////////////////////////////////////////////////////////////////////////////////////
+	//                     LinkExistingEscalationCaseAgainOnSameEscalation                     //
+	/////////////////////////////////////////////////////////////////////////////////////////////
+
+	static testMethod void setDuplicateCaseOnAnEscalation_validTest() {
+		Account testAccount = TestUtils.getAccount();
+		insert testAccount;
+
+		Case testCase = TestUtils.getCase(testAccount);
+		insert testCase;
+
+		rh_escal__Escalation__c testEscalation = TestUtils.getEscalation();
+		insert testEscalation;
+
+		testEscalation = TestUtils.fetchEscalation(testEscalation);
+
+		rh_escal__EscalationCase__c testEscalationCase1 = TestUtils.getEscalationCase(testEscalation, testCase);
+		insert testEscalationCase1;
+
+		testEscalationCase1 = TestUtils.fetchEscalationCase(testEscalationCase1);
+
+		rh_escal__EscalationCase__c testEscalationCase2 = TestUtils.getEscalationCase(testEscalation, testCase);
+
+		BaseTrigger.triggerNameToInfoMap.clear();
+
+		Test.startTest();
+
+		try {
+			insert testEscalationCase2;
+			System.assert(false, 'Should have thrown an exception by now');
+		} catch (System.DMLException e) {
+			System.assert(e.getMessage().contains(EscalationCaseUtils.CASE_ALREADY_LINKED), 'Got the right exception but the wrong message [' + e.getMessage() + ']');
+		}
+
+		Test.stopTest();
+
+		System.assertEquals(null, testEscalationCase2.Id, 'The case should not have been added');
+	}
+
+	static testMethod void setUniqueCaseOnAnEscalation_validTest() {
+		Account testAccount = TestUtils.getAccount();
+		insert testAccount;
+
+		Case testCase1 = TestUtils.getCase(testAccount);
+		insert testCase1;
+
+		Case testCase2 = TestUtils.getCase(testAccount);
+		insert testCase2;
+
+		rh_escal__Escalation__c testEscalation = TestUtils.getEscalation();
+		insert testEscalation;
+
+		rh_escal__EscalationCase__c testEscalationCase1 = TestUtils.getEscalationCase(testEscalation, testCase1);
+		insert testEscalationCase1;
+
+		rh_escal__EscalationCase__c testEscalationCase2 = TestUtils.getEscalationCase(testEscalation, testCase2);
+		testEscalationCase2.rh_escal__Primary__c = true;
+
+		BaseTrigger.triggerNameToInfoMap.clear();
+
+		Test.startTest();
+
+		try {
+			insert testEscalationCase2;
+			System.assert(true, 'Should not have thrown an exception by now');
+		} catch (System.DMLException e) {
+			System.assert(e.getMessage().contains(EscalationCaseUtils.CASE_ALREADY_LINKED), 'Got the right exception but the wrong message [' + e.getMessage() + ']');
+		}
+
+		Test.stopTest();
+
+		testEscalation = TestUtils.fetchEscalation(testEscalation);
+		testEscalationCase1 = TestUtils.fetchEscalationCase(testEscalationCase1);
+		testEscalationCase2 = TestUtils.fetchEscalationCase(testEscalationCase2);
+
+		System.assertEquals(testCase2.Id, testEscalation.rh_escal__PrimaryCase__c, 'The primary case should have been updated');
+		System.assert(!testEscalationCase1.rh_escal__Primary__c, 'The escalation case should not have been marked as primary');
+		System.assert(testEscalationCase2.rh_escal__Primary__c, 'The escalation case should have been marked as primary');
+	}
 }
