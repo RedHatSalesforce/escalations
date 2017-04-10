@@ -84,7 +84,9 @@ global class TestUtils {
 	*/
 	global static rh_escal__Escalation__c fetchEscalation(rh_escal__Escalation__c escalation) {
 		return [
-			select rh_escal__PrimaryCase__c
+			select rh_escal__Account__c,
+				rh_escal__PrimaryCase__c,
+				rh_escal__PrimaryCase__r.AccountId
 			from rh_escal__Escalation__c
 			where Id = :escalation.Id
 		];
@@ -118,5 +120,25 @@ global class TestUtils {
 			from rh_escal__EscalationCase__c
 			where Id = :escalationCase.Id
 		];
+	}
+
+	/**
+	* Sets a primary case on the escalation
+	*
+	* @param escalation The escalation to set
+	* @param kase The case to pair
+	*/
+	public static void setPrimaryCaseOnEscalation(rh_escal__Escalation__c escalation, Case kase) {
+		escalation.rh_escal__PrimaryCase__c = kase.Id;
+	}
+
+	/**
+	* Sets an account on the escalation
+	*
+	* @param escalation The escalation to set
+	* @param acct The account to pair
+	*/
+	public static void setAccountOnEscalation(rh_escal__Escalation__c escalation, Account acct) {
+		escalation.rh_escal__Account__c = acct.Id;
 	}
 }

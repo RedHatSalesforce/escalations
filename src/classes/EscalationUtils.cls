@@ -40,4 +40,37 @@ global with sharing class EscalationUtils {
 	global static rh_escal__Escalation__c getEscalation(Id id) {
 		return getEscalationMap(new Set<Id> {id}).get(id);
 	}
+
+	/**
+	* Gets a map of cases
+	*
+	* @param Set<Id> The caseIds to query
+	* @return The map of cases
+	*/
+	public static Map<Id, Case> getCaseMapByIds(Set<Id> caseIds) {
+		return new Map<Id, Case>([
+			select Account.AccountNumber,
+				Account.Name,
+				AccountId,
+				BusinessHoursId,
+				CaseNumber,
+				OwnerId,
+				Contact.Email,
+				ContactId,
+				Contact.Name,
+				CreatedById,
+				ClosedDate,
+				CreatedDate,
+				LastModifiedById,
+				rh_escal__EngineeringReqNumber__c,
+				rh_escal__PotentialLiability__c,
+				rh_escal__Product__c,
+				rh_escal__SLAViolation__c,
+				Status,
+				Subject,
+				Type
+			from Case
+			where Id in :caseIds
+		]);
+	}
 }
