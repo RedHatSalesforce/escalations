@@ -86,14 +86,14 @@ public with sharing class EscalationTeamTrigger extends BaseTrigger {
 			escalToEmails.put(escalationId, new Set<String>());
 		}
 
-		escalToMembers.remove(null);
-		escalToEmails.remove(null);
-
 		for (rh_escal__EscalationTeam__c team: EscalationTeamUtils.getEscalationTeamMembers(escalationIds)) {
 			escalToMembers.get(team.rh_escal__Escalation__c).add(team.rh_escal__Contact__c);
 			escalToMembers.get(team.rh_escal__Escalation__c).add(team.rh_escal__User__c);
 			escalToEmails.get(team.rh_escal__Escalation__c).add(team.rh_escal__Email__c);
 		}
+
+		escalToMembers.remove(null);
+		escalToEmails.remove(null);
 
 		for (rh_escal__EscalationTeam__c team: this.newObjs) {
 			Set<Id> members = escalToMembers.get(team.rh_escal__Escalation__c);
