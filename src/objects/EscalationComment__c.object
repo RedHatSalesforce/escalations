@@ -129,7 +129,7 @@
         <externalId>false</externalId>
         <formula>BLANKVALUE(Created_By_Contact__r.FirstName + &apos; &apos; + Created_By_Contact__r.LastName,
 	BLANKVALUE(Created_By_User__r.FirstName + &apos; &apos; + Created_By_User__r.LastName,
-	$User.FirstName + &apos; &apos; +  $User.LastName))</formula>
+	CreatedBy.FirstName + &apos; &apos; +  CreatedBy.LastName))</formula>
         <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
         <label>Created By Name</label>
         <required>false</required>
