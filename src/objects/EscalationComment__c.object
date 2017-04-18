@@ -70,6 +70,74 @@
         <visibleLines>3</visibleLines>
     </fields>
     <fields>
+        <fullName>Created_By_Contact__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>The contact that created the comment. Null if created by a user</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The contact that created the comment. Null if created by a user</inlineHelpText>
+        <label>Created By Contact</label>
+        <referenceTo>Contact</referenceTo>
+        <relationshipLabel>Escalation Comments</relationshipLabel>
+        <relationshipName>Escalation_Comments</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Created_By_Link__c</fullName>
+        <description>Link to the user or contact that created the comment</description>
+        <externalId>false</externalId>
+        <formula>IF(NOT(ISBLANK(Created_By_Contact__c)), HYPERLINK(&apos;/&apos; + Created_By_Contact__c, Created_By_Contact__r.FirstName + &apos; &apos; + Created_By_Contact__r.LastName, &apos;_self&apos;),
+	(IF(NOT(ISBLANK(Created_By_User__c)), HYPERLINK(&apos;/&apos; + Created_By_User__c, Created_By_User__r.FirstName + &apos; &apos; +  Created_By_User__r.LastName, &apos;_self&apos;),
+	IF(NOT(ISBLANK(CreatedById)), HYPERLINK(&apos;/&apos; + CreatedById, CreatedBy.FirstName + &apos; &apos; +  CreatedBy.LastName, &apos;_self&apos;), &apos;&apos;)
+	)))</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <inlineHelpText>Link to the user or contact that created the comment</inlineHelpText>
+        <label>Created By</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Created_By_Text__c</fullName>
+        <description>The text about who created the comment</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The text about who created the comment</inlineHelpText>
+        <label>Created By Text</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Created_By_User__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>The user that created the comment. Null if created by a contact</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The user that created the comment. Null if created by a contact</inlineHelpText>
+        <label>Created By User</label>
+        <referenceTo>User</referenceTo>
+        <relationshipName>Escalation_Comments</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Created_By__c</fullName>
+        <externalId>false</externalId>
+        <formula>BLANKVALUE(Created_By_Contact__r.FirstName + &apos; &apos; + Created_By_Contact__r.LastName,
+	BLANKVALUE(Created_By_User__r.FirstName + &apos; &apos; + Created_By_User__r.LastName,
+	CreatedBy.FirstName + &apos; &apos; +  CreatedBy.LastName))</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Created By Name</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>Escalation__c</fullName>
         <deprecated>false</deprecated>
         <description>The escalation the comment is associated with</description>
@@ -84,6 +152,93 @@
         <trackTrending>false</trackTrending>
         <type>MasterDetail</type>
         <writeRequiresMasterRead>false</writeRequiresMasterRead>
+    </fields>
+    <fields>
+        <fullName>LastModifiedBy_Contact__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>The contact that last modified the comment. Null if last modified by a user</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The contact that last modified the comment. Null if last modified by a user</inlineHelpText>
+        <label>LastModifiedBy_Contact</label>
+        <referenceTo>Contract</referenceTo>
+        <relationshipLabel>Escalation Comments</relationshipLabel>
+        <relationshipName>Escalation_Comments</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>LastModifiedBy_Id__c</fullName>
+        <description>The id of the user/contact that last modified the comment</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The id of the user/contact that last modified the comment</inlineHelpText>
+        <label>LastModifiedBy_Id</label>
+        <length>18</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>LastModifiedBy_Name__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(NOT(ISBLANK(LastModifiedBy_Text__c)), Created_By_Text__c,  LastModifiedBy.FirstName + &apos; &apos; +  LastModifiedBy.LastName)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>LastModifiedBy Name</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>LastModifiedBy_Text__c</fullName>
+        <description>Text of the last modified by user</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Text of the last modified by user</inlineHelpText>
+        <label>LastModifiedBy_Text</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>LastModifiedBy_User__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>The user that last modified the comment. Null if last modified by a contact</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The user that last modified the comment. Null if last modified by a contact</inlineHelpText>
+        <label>LastModifiedBy_User</label>
+        <referenceTo>User</referenceTo>
+        <relationshipName>Escalation_Comments1</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Last_Modified_By_Link__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(NOT(ISBLANK(Created_By_Contact__c)), HYPERLINK(&apos;/&apos; + Created_By_Contact__r.Id, Created_By_Contact__r.FirstName  + &apos; &apos; +
+	Created_By_Contact__r.LastName, &apos;_self&apos;),
+	IF(NOT(ISBLANK(Created_By_User__c)), HYPERLINK(&apos;/&apos; +  LastModifiedBy_User__r.Id, LastModifiedBy_User__r.FirstName  + &apos; &apos; +  LastModifiedBy_User__r.LastName, &apos;_self&apos;),
+	IF(NOT(ISBLANK(LastModifiedById)), HYPERLINK(&apos;/&apos; + LastModifiedById, LastModifiedBy.FirstName + &apos; &apos; +  LastModifiedBy.LastName, &apos;_self&apos;),
+	IF(NOT(ISBLANK(LastModifiedBy_Text__c)),LastModifiedBy_Text__c,&quot;&quot;))))</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Last Modified By</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Last_Modified_Date__c</fullName>
+        <description>The date the comment was last modified</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The date the comment was last modified</inlineHelpText>
+        <label>Last Modified Date</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>DateTime</type>
     </fields>
     <fields>
         <fullName>Private__c</fullName>

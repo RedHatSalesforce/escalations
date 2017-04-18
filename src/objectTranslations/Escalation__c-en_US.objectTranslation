@@ -9,7 +9,7 @@
         <value>Escalations</value>
     </caseValues>
     <fields>
-        <help><!-- The primary case for the escalation. --></help>
+        <help><!-- The account for the escalation. --></help>
         <label><!-- Account --></label>
         <name>Account__c</name>
         <relationshipLabel><!-- Escalations --></relationshipLabel>

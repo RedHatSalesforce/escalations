@@ -14,10 +14,71 @@
         <name>Body__c</name>
     </fields>
     <fields>
+        <help><!-- The contact that created the comment. Null if created by a user --></help>
+        <label><!-- Created By Contact --></label>
+        <name>Created_By_Contact__c</name>
+        <relationshipLabel><!-- Escalation Comments --></relationshipLabel>
+    </fields>
+    <fields>
+        <help><!-- Link to the user or contact that created the comment --></help>
+        <label><!-- Created By --></label>
+        <name>Created_By_Link__c</name>
+    </fields>
+    <fields>
+        <help><!-- The text about who created the comment --></help>
+        <label><!-- Created By Text --></label>
+        <name>Created_By_Text__c</name>
+    </fields>
+    <fields>
+        <help><!-- The user that created the comment. Null if created by a contact --></help>
+        <label><!-- Created By User --></label>
+        <name>Created_By_User__c</name>
+        <relationshipLabel><!-- Escalation Comments (Created By User) --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Created By Name --></label>
+        <name>Created_By__c</name>
+    </fields>
+    <fields>
         <help><!-- The escalation the comment is associated with --></help>
         <label><!-- Escalation --></label>
         <name>Escalation__c</name>
         <relationshipLabel><!-- Escalation Comments --></relationshipLabel>
+    </fields>
+    <fields>
+        <help><!-- The contact that last modified the comment. Null if last modified by a user --></help>
+        <label><!-- LastModifiedBy_Contact --></label>
+        <name>LastModifiedBy_Contact__c</name>
+        <relationshipLabel><!-- Escalation Comments --></relationshipLabel>
+    </fields>
+    <fields>
+        <help><!-- The id of the user/contact that last modified the comment --></help>
+        <label><!-- LastModifiedBy_Id --></label>
+        <name>LastModifiedBy_Id__c</name>
+    </fields>
+    <fields>
+        <label><!-- LastModifiedBy Name --></label>
+        <name>LastModifiedBy_Name__c</name>
+    </fields>
+    <fields>
+        <help><!-- Text of the last modified by user --></help>
+        <label><!-- LastModifiedBy_Text --></label>
+        <name>LastModifiedBy_Text__c</name>
+    </fields>
+    <fields>
+        <help><!-- The user that last modified the comment. Null if last modified by a contact --></help>
+        <label><!-- LastModifiedBy_User --></label>
+        <name>LastModifiedBy_User__c</name>
+        <relationshipLabel><!-- Escalation Comments (LastModifiedBy_User) --></relationshipLabel>
+    </fields>
+    <fields>
+        <label><!-- Last Modified By --></label>
+        <name>Last_Modified_By_Link__c</name>
+    </fields>
+    <fields>
+        <help><!-- The date the comment was last modified --></help>
+        <label><!-- Last Modified Date --></label>
+        <name>Last_Modified_Date__c</name>
     </fields>
     <fields>
         <help><!-- If the comment is private --></help>
