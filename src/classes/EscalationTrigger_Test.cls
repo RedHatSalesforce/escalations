@@ -186,4 +186,58 @@ public class EscalationTrigger_Test {
 		System.assertEquals(null, testEscalation.rh_escal__PrimaryCase__c, 'The primary case of escalation should be null.');
 		System.assertEquals(null, testEscalation.rh_escal__Account__c, 'The account is not set correctly.');
 	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	//                   createEscalationCaseRecordOnEscalationInsert                 //
+	////////////////////////////////////////////////////////////////////////////////////
+
+	static testMethod void createEscalationCaseRecord_primaryCaseOnEscalationNotNull_valid() {
+		Account testAccount = TestUtils.getAccount();
+		insert testAccount;
+
+		Case testCase = TestUtils.getCase(testAccount);
+		insert testCase;
+
+		rh_escal__Escalation__c testEscalation = TestUtils.getEscalation();
+		TestUtils.setPrimaryCaseOnEscalation(testEscalation, testCase);
+
+		Test.startTest();
+
+		insert testEscalation;
+
+		Test.stopTest();
+
+		testEscalation = TestUtils.fetchEscalation(testEscalation);
+
+		rh_escal__EscalationCase__c escalCase = TestUtils.getEscalationCase(testEscalation, testCase);
+
+		System.assertEquals(testCase.Id, testEscalation.rh_escal__PrimaryCase__c, 'The primary case is not set correctly.');
+		System.assertEquals(testAccount.Id, testEscalation.rh_escal__Account__c, 'The account is not set correctly.');
+		System.assertNotEquals(null, escalCase, 'Did not get the expected escal case record.');
+	}
+
+	static testMethod void createEscalationCaseRecord_primaryCaseOnEscalationNull_valid() {
+		Account testAccount = TestUtils.getAccount();
+		insert testAccount;
+
+		Case testCase = TestUtils.getCase(testAccount);
+		insert testCase;
+
+		rh_escal__Escalation__c testEscalation = TestUtils.getEscalation();
+		TestUtils.setPrimaryCaseOnEscalation(testEscalation, testCase);
+
+		Test.startTest();
+
+		insert testEscalation;
+
+		Test.stopTest();
+
+		testEscalation = TestUtils.fetchEscalation(testEscalation);
+
+		rh_escal__EscalationCase__c escalCase = TestUtils.getEscalationCase(testEscalation, testCase);
+
+		System.assertEquals(testCase.Id, testEscalation.rh_escal__PrimaryCase__c, 'The primary case is not set correctly.');
+		System.assertEquals(testAccount.Id, testEscalation.rh_escal__Account__c, 'The account is not set correctly.');
+		System.assertNotEquals(null, escalCase, 'Got the escal case record that we did not expected.');
+	}
 }

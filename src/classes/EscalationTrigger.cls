@@ -102,6 +102,34 @@ public with sharing class EscalationTrigger extends BaseTrigger {
 	}
 
 	/**
+	* Auto populate the rh_escal__EscalationCase__c	record if primary case on the escalation is not null.
+	*/
+	@TestVisible
+	private void createEscalationCaseWhenPrimaryCaseIsNotNull() {
+		if (this.isDelete || this.isUpdate) {
+			return;
+		}
+
+		List<rh_escal__EscalationCase__c> escalCaseToInsert = new List<rh_escal__EscalationCase__c>();
+
+		for (rh_escal__Escalation__c escalation : this.newObjs) {
+			Boolean nullPrimaryCase = (escalation.rh_escal__PrimaryCase__c == null);
+
+			if (!nullPrimaryCase) {
+				escalCaseToInsert.add(new rh_escal__EscalationCase__c(
+					rh_escal__Case__c = escalation.rh_escal__PrimaryCase__c,
+					rh_escal__Primary__c = true,
+					rh_escal__Escalation__c = escalation.Id
+				));
+			}
+		}
+
+		if (!escalCaseToInsert.isEmpty()) {
+			insert escalCaseToInsert;
+		}
+	}
+
+	/**
 	* Perform actions that should be done in the 'before' part of a trigger
 	*/
 	@TestVisible
@@ -110,6 +138,18 @@ public with sharing class EscalationTrigger extends BaseTrigger {
 
 		if (this.numberOfBeforeRuns == 1) {
 			this.setAccountWhenPrimaryCaseIsNotNull();
+		}
+	}
+
+	/**
+	* Perform actions that should be done in the 'after' part of a trigger
+	*/
+	@TestVisible
+	protected override void runAfter() {
+		super.runAfter();
+
+		if (this.numberOfBeforeRuns == 1 && this.numberOfAfterRuns == 1) {
+			this.createEscalationCaseWhenPrimaryCaseIsNotNull();
 		}
 	}
 }
