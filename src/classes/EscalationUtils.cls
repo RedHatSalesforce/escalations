@@ -6,6 +6,26 @@
 */
 global with sharing class EscalationUtils {
 	/**
+	* Logic for stoping a trigger recursion
+	*/
+	private static boolean firstRun = true;
+
+	/**
+	* Determine if firstRun is true or not
+	* @return the firstRun
+	*/
+	global static boolean isFirstRun() {
+		return firstRun;
+	}
+
+	/**
+	* Sets firstRun
+	*/
+	global static void setFirstRunFalse(){
+		firstRun = false;
+	}
+
+	/**
 	* Gets a list of escalations for a give id set
 	*
 	* @param ids The escalation ids to query

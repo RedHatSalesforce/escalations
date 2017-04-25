@@ -155,6 +155,7 @@ public with sharing class EscalationCaseTrigger extends BaseTrigger {
 		}
 
 		if (!escalationsToUpdate.isEmpty()) {
+			EscalationUtils.setFirstRunFalse();
 			update escalationsToUpdate.values();
 		}
 	}

@@ -186,4 +186,91 @@ public class EscalationTrigger_Test {
 		System.assertEquals(null, testEscalation.rh_escal__PrimaryCase__c, 'The primary case of escalation should be null.');
 		System.assertEquals(null, testEscalation.rh_escal__Account__c, 'The account is not set correctly.');
 	}
+
+	////////////////////////////////////////////////////////////////////////////////////
+	//                   createEscalationCaseRecordOnEscalationInsert                 //
+	////////////////////////////////////////////////////////////////////////////////////
+
+	static testMethod void createEscalationCaseRecord_primaryCaseOnEscalationNotNull_valid() {
+		Account testAccount = TestUtils.getAccount();
+		insert testAccount;
+
+		Case testCase = TestUtils.getCase(testAccount);
+		insert testCase;
+
+		rh_escal__Escalation__c testEscalation = TestUtils.getEscalation();
+		TestUtils.setPrimaryCaseOnEscalation(testEscalation, testCase);
+
+		Test.startTest();
+
+		insert testEscalation;
+
+		Test.stopTest();
+
+		testEscalation = TestUtils.fetchEscalation(testEscalation);
+
+		List<rh_escal__EscalationCase__c> escalCases = TestUtils.fetchEscalationCases(testEscalation);
+
+		System.assertEquals(1, escalCases.size(), 'Did not get the expected number of cases back.');
+		rh_escal__EscalationCase__c escalCase = escalCases.get(0);
+
+		System.assertEquals(testCase.Id, escalCase.rh_escal__Case__c, 'The case id was not set correctly.');
+		System.assert(escalCase.rh_escal__Primary__c, 'This should be the primary case.');
+		System.assertEquals(testEscalation.Id, escalCase.rh_escal__Escalation__c, 'The escalation id was not set correctly.');
+	}
+
+	static testMethod void doNotCreateEscalationCaseRecord_primaryCaseOnEscalationNull_valid() {
+		Account testAccount = TestUtils.getAccount();
+		insert testAccount;
+
+		Case testCase = TestUtils.getCase(testAccount);
+		insert testCase;
+
+		rh_escal__Escalation__c testEscalation = TestUtils.getEscalation();
+
+		Test.startTest();
+
+		insert testEscalation;
+
+		Test.stopTest();
+
+		testEscalation = TestUtils.fetchEscalation(testEscalation);
+
+		List<rh_escal__EscalationCase__c> escalCases = TestUtils.fetchEscalationCases(testEscalation);
+
+		System.assertEquals(0, escalCases.size(), 'Got the escal case that we did not expected.');
+		System.assertEquals(null, testEscalation.rh_escal__PrimaryCase__c, 'The primary case is not set correctly.');
+		System.assertEquals(null, testEscalation.rh_escal__Account__c, 'The account is not set correctly.');
+	}
+
+	static testMethod void setPrimaryCaseNotNull_onUpdate_doNothingValidTest() {
+		Account testAccount = TestUtils.getAccount();
+		insert testAccount;
+
+		Case testCase = TestUtils.getCase(testAccount);
+		insert testCase;
+
+		rh_escal__Escalation__c testEscalation = TestUtils.getEscalation();
+		insert testEscalation;
+
+		testEscalation = TestUtils.fetchEscalation(testEscalation);
+
+		TestUtils.setPrimaryCaseOnEscalation(testEscalation, testCase);
+
+		BaseTrigger.triggerNameToInfoMap.clear();
+
+		Test.startTest();
+
+		update testEscalation;
+
+		Test.stopTest();
+
+		testEscalation = TestUtils.fetchEscalation(testEscalation);
+
+		List<rh_escal__EscalationCase__c> escalCases = TestUtils.fetchEscalationCases(testEscalation);
+
+		System.assertEquals(0, escalCases.size(), 'Got the escal case that we did not expected.');
+		System.assertEquals(testCase.Id, testEscalation.rh_escal__PrimaryCase__c, 'The primary case is not set correctly.');
+		System.assertEquals(testAccount.Id, testEscalation.rh_escal__Account__c, 'The account is not set correctly.');
+	}
 }
