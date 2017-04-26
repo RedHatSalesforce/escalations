@@ -92,13 +92,13 @@ public class EscalationTrigger_Test {
 		System.assertEquals(null, testEscalation.rh_escal__PrimaryCase__c, 'The primary case is not set correctly.');
 		System.assertEquals(null, testEscalation.rh_escal__Account__c, 'The account is not set correctly.');
 
-		TestUtils.setPrimaryCaseOnEscalation(testEscalation, testCase);
+		rh_escal__EscalationCase__c testEscalationCase = TestUtils.getEscalationCase(testEscalation, testCase);
 
 		BaseTrigger.triggerNameToInfoMap.clear();
 
 		Test.startTest();
 
-		update testEscalation;
+		insert testEscalationCase;
 
 		Test.stopTest();
 
@@ -243,7 +243,37 @@ public class EscalationTrigger_Test {
 		System.assertEquals(null, testEscalation.rh_escal__Account__c, 'The account is not set correctly.');
 	}
 
-	static testMethod void setPrimaryCaseNotNull_onUpdate_doNothingValidTest() {
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	//                     AllowSettingOfPimaryCaseWheneverEscalationIsInserted                     //
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	static testMethod void setPrimaryCaseNotNull_onInsert_valid() {
+		Account testAccount = TestUtils.getAccount();
+		insert testAccount;
+
+		Case testCase = TestUtils.getCase(testAccount);
+		insert testCase;
+
+		rh_escal__Escalation__c testEscalation = TestUtils.getEscalation();
+		TestUtils.setPrimaryCaseOnEscalation(testEscalation, testCase);
+
+		Test.startTest();
+
+		insert testEscalation;
+
+		Test.stopTest();
+
+		testEscalation = TestUtils.fetchEscalation(testEscalation);
+
+		System.assertEquals(testCase.Id, testEscalation.rh_escal__PrimaryCase__c, 'The primary case is not set correctly.');
+		System.assertEquals(testAccount.Id, testEscalation.rh_escal__Account__c, 'The account is not set correctly.');
+	}
+
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	//                     DoNotAllowSettingOfPimaryCaseWheneverEscalationIsUpdated                 //
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+
+	static testMethod void doNotAllowSettingPrimaryCase_onUpdate_validTest() {
 		Account testAccount = TestUtils.getAccount();
 		insert testAccount;
 
@@ -261,7 +291,12 @@ public class EscalationTrigger_Test {
 
 		Test.startTest();
 
-		update testEscalation;
+		try {
+			update testEscalation;
+			System.assert(false, 'Should have thrown an exception by now');
+		} catch (System.DMLException e) {
+			System.assert(e.getMessage().contains(EscalationTrigger.PRIMARYCASE_UPDATION_NOT_ALLOWED), 'Got the right exception but the wrong message [' + e.getMessage() + ']');
+		}
 
 		Test.stopTest();
 
@@ -270,7 +305,33 @@ public class EscalationTrigger_Test {
 		List<rh_escal__EscalationCase__c> escalCases = TestUtils.fetchEscalationCases(testEscalation);
 
 		System.assertEquals(0, escalCases.size(), 'Got the escal case that we did not expected.');
+	}
+
+	static testMethod void primaryCaseSettingCorrectly_onEscalationCaseInsert_validTest() {
+		Account testAccount = TestUtils.getAccount();
+		insert testAccount;
+
+		Case testCase = TestUtils.getCase(testAccount);
+		insert testCase;
+
+		rh_escal__Escalation__c testEscalation = TestUtils.getEscalation();
+		insert testEscalation;
+
+		testEscalation = TestUtils.fetchEscalation(testEscalation);
+
+		rh_escal__EscalationCase__c testEscalationCase = TestUtils.getEscalationCase(testEscalation, testCase);
+
+		BaseTrigger.triggerNameToInfoMap.clear();
+
+		Test.startTest();
+
+		insert testEscalationCase;
+
+		Test.stopTest();
+
+		testEscalation = TestUtils.fetchEscalation(testEscalation);
+
 		System.assertEquals(testCase.Id, testEscalation.rh_escal__PrimaryCase__c, 'The primary case is not set correctly.');
-		System.assertEquals(testAccount.Id, testEscalation.rh_escal__Account__c, 'The account is not set correctly.');
+		System.assertEquals(testAccount.Id, testEscalation.rh_escal__Account__c, 'The primary case account should be equal to escalation account.');
 	}
 }

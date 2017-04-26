@@ -203,7 +203,7 @@
         <fullName>LastModifiedBy_Name__c</fullName>
         <deprecated>false</deprecated>
         <externalId>false</externalId>
-        <formula>IF(NOT(ISBLANK(LastModifiedBy_Text__c)), Created_By_Text__c,  LastModifiedBy.FirstName + &apos; &apos; +  LastModifiedBy.LastName)</formula>
+        <formula>IF(NOT(ISBLANK(LastModifiedBy_Text__c)), LastModifiedBy_Text__c,  LastModifiedBy.FirstName + &apos; &apos; +  LastModifiedBy.LastName)</formula>
         <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
         <label>LastModifiedBy Name</label>
         <required>false</required>

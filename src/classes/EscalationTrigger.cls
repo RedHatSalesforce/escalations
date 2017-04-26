@@ -57,6 +57,17 @@ public with sharing class EscalationTrigger extends BaseTrigger {
 		return 'EscalationTrigger';
 	}
 
+	public static final String PRIMARYCASE_UPDATION_NOT_ALLOWED = 'Update the primary case by updating or adding an escalation case record';
+
+	public static Boolean IS_ADDING_ESCALATIONCASE = true;
+
+	/**
+	* Sets IS_ADDING_ESCALATIONCASE
+	*/
+	public static void setIsAddingEscalationCase(){
+		IS_ADDING_ESCALATIONCASE = false;
+	}
+
 	/**
 	* Auto populate the account on the escalation if account is not set and primary case of the account is set.
 	*
@@ -90,7 +101,6 @@ public with sharing class EscalationTrigger extends BaseTrigger {
 			if (
 				nullAccount && !nullPrimaryCase &&
 				(
-				// we will have to remove this logic for escalation update as we are no longer allowing updation of escalation primary case
 					this.isInsert ||
 					(
 						this.oldMap.get(escalation.Id).rh_escal__PrimaryCase__c != escalation.rh_escal__PrimaryCase__c
@@ -111,22 +121,22 @@ public with sharing class EscalationTrigger extends BaseTrigger {
 			return;
 		}
 
-		List<rh_escal__EscalationCase__c> escalCaseToInsert = new List<rh_escal__EscalationCase__c>();
+		List<rh_escal__EscalationCase__c> escalCasesToInsert = new List<rh_escal__EscalationCase__c>();
 
 		for (rh_escal__Escalation__c escalation : this.newObjs) {
 			if (escalation.rh_escal__PrimaryCase__c == null) {
 				continue;
 			}
 
-			escalCaseToInsert.add(new rh_escal__EscalationCase__c(
+			escalCasesToInsert.add(new rh_escal__EscalationCase__c(
 				rh_escal__Case__c = escalation.rh_escal__PrimaryCase__c,
 				rh_escal__Primary__c = true,
 				rh_escal__Escalation__c = escalation.Id
 			));
 		}
 
-		if (!escalCaseToInsert.isEmpty()) {
-			insert escalCaseToInsert;
+		if (!escalCasesToInsert.isEmpty()) {
+			insert escalCasesToInsert;
 		}
 	}
 
@@ -153,9 +163,11 @@ public with sharing class EscalationTrigger extends BaseTrigger {
 		Map<Id, List<rh_escal__EscalationCase__c>> existingEscalationCases = EscalationCaseUtils.getEscalationCasesForEscalations(escalationIds);
 
 		for (rh_escal__Escalation__c escalation : this.newObjs) {
-			if (existingEscalationCases.containsKey(escalation.Id)) {
+			if (
+				existingEscalationCases.containsKey(escalation.Id)
+			) {
 				for (rh_escal__EscalationCase__c escalCase : existingEscalationCases.get(escalation.Id)) {
-					if(escalCase.rh_escal__Primary__c) {
+					if (escalCase.rh_escal__Primary__c) {
 						caseIds.add(escalCase.rh_escal__Case__c);
 					}
 				}
@@ -163,16 +175,18 @@ public with sharing class EscalationTrigger extends BaseTrigger {
 		}
 
 		for (rh_escal__Escalation__c escalation : this.newObjs) {
-			if (EscalationUtils.isFirstRun()) {
-				if (this.oldMap.get(escalation.Id) != escalation && escalation.rh_escal__PrimaryCase__c != null && caseIds.contains(escalation.rh_escal__PrimaryCase__c)) {
+			Boolean primaryCaseUpdated = this.oldMap.get(escalation.Id).rh_escal__PrimaryCase__c != escalation.rh_escal__PrimaryCase__c;
+			Boolean primaryCaseIsNull = escalation.rh_escal__PrimaryCase__c == null;
+
+			if (IS_ADDING_ESCALATIONCASE) {
+				if (
+					primaryCaseUpdated &&
+					primaryCaseIsNull &&
+					caseIds.contains(escalation.rh_escal__PrimaryCase__c)
+				) {
 					continue;
-				}
-				// I think we should allow removal of already linked primary case
-				else if (this.oldMap.get(escalation.Id) != escalation && escalation.rh_escal__PrimaryCase__c == null) {
-					continue;
-				}
-				else {
-					escalation.addError('Updation of primary case is not allowed, please create a new escalation case record for the same');
+				} else {
+					escalation.rh_escal__PrimaryCase__c.addError(PRIMARYCASE_UPDATION_NOT_ALLOWED);
 				}
 			}
 		}
