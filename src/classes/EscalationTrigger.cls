@@ -59,13 +59,13 @@ public with sharing class EscalationTrigger extends BaseTrigger {
 
 	public static final String PRIMARYCASE_UPDATION_NOT_ALLOWED = 'Update the primary case by updating or adding an escalation case record';
 
-	public static Boolean IS_ADDING_ESCALATIONCASE = true;
+	public static Boolean IS_ADDING_ESCALATIONCASE = false;
 
 	/**
 	* Sets IS_ADDING_ESCALATIONCASE
 	*/
 	public static void setIsAddingEscalationCase(){
-		IS_ADDING_ESCALATIONCASE = false;
+		IS_ADDING_ESCALATIONCASE = true;
 	}
 
 	/**
@@ -145,7 +145,7 @@ public with sharing class EscalationTrigger extends BaseTrigger {
 	*/
 	@TestVisible
 	private void doNotAllowUpdateOfPrimaryCase() {
-		if (!this.isUpdate) {
+		if (!this.isUpdate || IS_ADDING_ESCALATIONCASE) {
 			return;
 		}
 
@@ -176,18 +176,18 @@ public with sharing class EscalationTrigger extends BaseTrigger {
 
 		for (rh_escal__Escalation__c escalation : this.newObjs) {
 			Boolean primaryCaseUpdated = this.oldMap.get(escalation.Id).rh_escal__PrimaryCase__c != escalation.rh_escal__PrimaryCase__c;
-			Boolean primaryCaseIsNull = escalation.rh_escal__PrimaryCase__c == null;
 
-			if (IS_ADDING_ESCALATIONCASE) {
-				if (
-					primaryCaseUpdated &&
-					primaryCaseIsNull &&
-					caseIds.contains(escalation.rh_escal__PrimaryCase__c)
-				) {
-					continue;
-				} else {
-					escalation.rh_escal__PrimaryCase__c.addError(PRIMARYCASE_UPDATION_NOT_ALLOWED);
-				}
+			if (
+				!primaryCaseUpdated
+			) {
+				continue;
+			} else if (
+				primaryCaseUpdated &&
+				caseIds.contains(escalation.rh_escal__PrimaryCase__c)
+			) {
+				continue;
+			} else {
+				escalation.rh_escal__PrimaryCase__c.addError(PRIMARYCASE_UPDATION_NOT_ALLOWED);
 			}
 		}
 	}
