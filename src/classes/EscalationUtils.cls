@@ -62,10 +62,6 @@ global with sharing class EscalationUtils {
 				ClosedDate,
 				CreatedDate,
 				LastModifiedById,
-				rh_escal__EngineeringReqNumber__c,
-				rh_escal__PotentialLiability__c,
-				rh_escal__Product__c,
-				rh_escal__SLAViolation__c,
 				Status,
 				Subject,
 				Type

@@ -57,6 +57,17 @@ public with sharing class EscalationTrigger extends BaseTrigger {
 		return 'EscalationTrigger';
 	}
 
+	public static final String PRIMARYCASE_UPDATION_NOT_ALLOWED = 'Update the primary case by updating or adding an escalation case record';
+
+	public static Boolean IS_ADDING_ESCALATIONCASE = false;
+
+	/**
+	* Sets IS_ADDING_ESCALATIONCASE
+	*/
+	public static void setIsAddingEscalationCase(){
+		IS_ADDING_ESCALATIONCASE = true;
+	}
+
 	/**
 	* Auto populate the account on the escalation if account is not set and primary case of the account is set.
 	*
@@ -102,6 +113,86 @@ public with sharing class EscalationTrigger extends BaseTrigger {
 	}
 
 	/**
+	* Auto populate the rh_escal__EscalationCase__c	record if primary case of the escalation is not null.
+	*/
+	@TestVisible
+	private void createEscalationCaseWhenPrimaryCaseIsNotNull() {
+		if (!this.isInsert) {
+			return;
+		}
+
+		List<rh_escal__EscalationCase__c> escalCasesToInsert = new List<rh_escal__EscalationCase__c>();
+
+		for (rh_escal__Escalation__c escalation : this.newObjs) {
+			if (escalation.rh_escal__PrimaryCase__c == null) {
+				continue;
+			}
+
+			escalCasesToInsert.add(new rh_escal__EscalationCase__c(
+				rh_escal__Case__c = escalation.rh_escal__PrimaryCase__c,
+				rh_escal__Primary__c = true,
+				rh_escal__Escalation__c = escalation.Id
+			));
+		}
+
+		if (!escalCasesToInsert.isEmpty()) {
+			insert escalCasesToInsert;
+		}
+	}
+
+	/**
+	* Do not allow setting of primary case on escalation update events.
+	*/
+	@TestVisible
+	private void doNotAllowUpdateOfPrimaryCase() {
+		if (!this.isUpdate || IS_ADDING_ESCALATIONCASE) {
+			return;
+		}
+
+		Set<Id> escalationIds = new Set<Id>();
+
+		for (rh_escal__Escalation__c escalation : this.newObjs) {
+			if (escalation.rh_escal__PrimaryCase__c != null) {
+				escalationIds.add(escalation.Id);
+			}
+		}
+
+		escalationIds.remove(null);
+		Set<Id> caseIds = new set<Id>();
+
+		Map<Id, List<rh_escal__EscalationCase__c>> existingEscalationCases = EscalationCaseUtils.getEscalationCasesForEscalations(escalationIds);
+
+		for (rh_escal__Escalation__c escalation : this.newObjs) {
+			if (
+				existingEscalationCases.containsKey(escalation.Id)
+			) {
+				for (rh_escal__EscalationCase__c escalCase : existingEscalationCases.get(escalation.Id)) {
+					if (escalCase.rh_escal__Primary__c) {
+						caseIds.add(escalCase.rh_escal__Case__c);
+					}
+				}
+			}
+		}
+
+		for (rh_escal__Escalation__c escalation : this.newObjs) {
+			Boolean primaryCaseUpdated = this.oldMap.get(escalation.Id).rh_escal__PrimaryCase__c != escalation.rh_escal__PrimaryCase__c;
+
+			if (
+				!primaryCaseUpdated
+			) {
+				continue;
+			} else if (
+				primaryCaseUpdated &&
+				caseIds.contains(escalation.rh_escal__PrimaryCase__c)
+			) {
+				continue;
+			} else {
+				escalation.rh_escal__PrimaryCase__c.addError(PRIMARYCASE_UPDATION_NOT_ALLOWED);
+			}
+		}
+	}
+
+	/**
 	* Perform actions that should be done in the 'before' part of a trigger
 	*/
 	@TestVisible
@@ -110,6 +201,19 @@ public with sharing class EscalationTrigger extends BaseTrigger {
 
 		if (this.numberOfBeforeRuns == 1) {
 			this.setAccountWhenPrimaryCaseIsNotNull();
+			this.doNotAllowUpdateOfPrimaryCase();
+		}
+	}
+
+	/**
+	* Perform actions that should be done in the 'after' part of a trigger
+	*/
+	@TestVisible
+	protected override void runAfter() {
+		super.runAfter();
+
+		if (this.numberOfAfterRuns == 1) {
+			this.createEscalationCaseWhenPrimaryCaseIsNotNull();
 		}
 	}
 }

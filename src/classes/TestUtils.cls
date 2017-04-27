@@ -287,4 +287,20 @@ global class TestUtils {
 
 		return admin;
 	}
+
+	/**
+	* Fetches all escalation cases for a given escalation
+	*
+	* @param escalation The escalation to get it's cases
+	* @return The escalation cases
+	*/
+	global static List<rh_escal__EscalationCase__c> fetchEscalationCases(rh_escal__Escalation__c escalation) {
+		return [
+			select rh_escal__Case__c,
+				rh_escal__Escalation__c,
+				rh_escal__Primary__c
+			from rh_escal__EscalationCase__c
+			where rh_escal__Escalation__c = :escalation.Id
+		];
+	}
 }

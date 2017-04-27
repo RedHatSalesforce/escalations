@@ -72,6 +72,7 @@
     <fields>
         <fullName>Created_By_Contact__c</fullName>
         <deleteConstraint>SetNull</deleteConstraint>
+        <deprecated>false</deprecated>
         <description>The contact that created the comment. Null if created by a user</description>
         <externalId>false</externalId>
         <inlineHelpText>The contact that created the comment. Null if created by a user</inlineHelpText>
@@ -85,12 +86,12 @@
     </fields>
     <fields>
         <fullName>Created_By_Link__c</fullName>
+        <deprecated>false</deprecated>
         <description>Link to the user or contact that created the comment</description>
         <externalId>false</externalId>
         <formula>IF(NOT(ISBLANK(Created_By_Contact__c)), HYPERLINK(&apos;/&apos; + Created_By_Contact__c, Created_By_Contact__r.FirstName + &apos; &apos; + Created_By_Contact__r.LastName, &apos;_self&apos;),
 	(IF(NOT(ISBLANK(Created_By_User__c)), HYPERLINK(&apos;/&apos; + Created_By_User__c, Created_By_User__r.FirstName + &apos; &apos; +  Created_By_User__r.LastName, &apos;_self&apos;),
-	IF(NOT(ISBLANK(CreatedById)), HYPERLINK(&apos;/&apos; + CreatedById, CreatedBy.FirstName + &apos; &apos; +  CreatedBy.LastName, &apos;_self&apos;), &apos;&apos;)
-	)))</formula>
+	IF(NOT(ISBLANK(CreatedById)), HYPERLINK(&apos;/&apos; + CreatedById, CreatedBy.FirstName + &apos; &apos; +  CreatedBy.LastName, &apos;_self&apos;), &apos;&apos;))))</formula>
         <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
         <inlineHelpText>Link to the user or contact that created the comment</inlineHelpText>
         <label>Created By</label>
@@ -101,6 +102,7 @@
     </fields>
     <fields>
         <fullName>Created_By_Text__c</fullName>
+        <deprecated>false</deprecated>
         <description>The text about who created the comment</description>
         <externalId>false</externalId>
         <inlineHelpText>The text about who created the comment</inlineHelpText>
@@ -114,6 +116,7 @@
     <fields>
         <fullName>Created_By_User__c</fullName>
         <deleteConstraint>SetNull</deleteConstraint>
+        <deprecated>false</deprecated>
         <description>The user that created the comment. Null if created by a contact</description>
         <externalId>false</externalId>
         <inlineHelpText>The user that created the comment. Null if created by a contact</inlineHelpText>
@@ -126,6 +129,7 @@
     </fields>
     <fields>
         <fullName>Created_By__c</fullName>
+        <deprecated>false</deprecated>
         <externalId>false</externalId>
         <formula>BLANKVALUE(Created_By_Contact__r.FirstName + &apos; &apos; + Created_By_Contact__r.LastName,
 	BLANKVALUE(Created_By_User__r.FirstName + &apos; &apos; + Created_By_User__r.LastName,
@@ -154,7 +158,22 @@
         <writeRequiresMasterRead>false</writeRequiresMasterRead>
     </fields>
     <fields>
+        <fullName>LastModifiedByContact__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>The contact that last modified the comment. Null if last modified by a user</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The contact that last modified the comment. Null if last modified by a user</inlineHelpText>
+        <label>LastModifiedBy_Contact</label>
+        <referenceTo>Contact</referenceTo>
+        <relationshipLabel>Escalation Comments (Last Modified By Contact)</relationshipLabel>
+        <relationshipName>Escalation_Comment</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
         <fullName>LastModifiedBy_Id__c</fullName>
+        <deprecated>false</deprecated>
         <description>The id of the user/contact that last modified the comment</description>
         <externalId>false</externalId>
         <inlineHelpText>The id of the user/contact that last modified the comment</inlineHelpText>
@@ -167,8 +186,9 @@
     </fields>
     <fields>
         <fullName>LastModifiedBy_Name__c</fullName>
+        <deprecated>false</deprecated>
         <externalId>false</externalId>
-        <formula>IF(NOT(ISBLANK(LastModifiedBy_Text__c)), Created_By_Text__c,  LastModifiedBy.FirstName + &apos; &apos; +  LastModifiedBy.LastName)</formula>
+        <formula>IF(NOT(ISBLANK(LastModifiedBy_Text__c)), LastModifiedBy_Text__c,  LastModifiedBy.FirstName + &apos; &apos; +  LastModifiedBy.LastName)</formula>
         <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
         <label>LastModifiedBy Name</label>
         <required>false</required>
@@ -178,6 +198,7 @@
     </fields>
     <fields>
         <fullName>LastModifiedBy_Text__c</fullName>
+        <deprecated>false</deprecated>
         <description>Text of the last modified by user</description>
         <externalId>false</externalId>
         <inlineHelpText>Text of the last modified by user</inlineHelpText>
@@ -191,6 +212,7 @@
     <fields>
         <fullName>LastModifiedBy_User__c</fullName>
         <deleteConstraint>SetNull</deleteConstraint>
+        <deprecated>false</deprecated>
         <description>The user that last modified the comment. Null if last modified by a contact</description>
         <externalId>false</externalId>
         <inlineHelpText>The user that last modified the comment. Null if last modified by a contact</inlineHelpText>
@@ -203,13 +225,15 @@
     </fields>
     <fields>
         <fullName>Last_Modified_By_Link__c</fullName>
+        <deprecated>false</deprecated>
+        <description>Link the the user/contact that last modified the comment</description>
         <externalId>false</externalId>
-        <formula>IF(NOT(ISBLANK(Created_By_Contact__c)), HYPERLINK(&apos;/&apos; + Created_By_Contact__r.Id, Created_By_Contact__r.FirstName  + &apos; &apos; +
-	Created_By_Contact__r.LastName, &apos;_self&apos;),
-	IF(NOT(ISBLANK(Created_By_User__c)), HYPERLINK(&apos;/&apos; +  LastModifiedBy_User__r.Id, LastModifiedBy_User__r.FirstName  + &apos; &apos; +  LastModifiedBy_User__r.LastName, &apos;_self&apos;),
+        <formula>IF(NOT(ISBLANK(LastModifiedByContact__c)), HYPERLINK(&apos;/&apos; + LastModifiedByContact__r.Id, LastModifiedByContact__r.FirstName  + &apos; &apos; + LastModifiedByContact__r.LastName, &apos;_self&apos;),
+	IF(NOT(ISBLANK(LastModifiedBy_User__c)), HYPERLINK(&apos;/&apos; +  LastModifiedBy_User__r.Id, LastModifiedBy_User__r.FirstName  + &apos; &apos; +  LastModifiedBy_User__r.LastName, &apos;_self&apos;),
 	IF(NOT(ISBLANK(LastModifiedById)), HYPERLINK(&apos;/&apos; + LastModifiedById, LastModifiedBy.FirstName + &apos; &apos; +  LastModifiedBy.LastName, &apos;_self&apos;),
-	IF(NOT(ISBLANK(LastModifiedBy_Text__c)),LastModifiedBy_Text__c,&quot;&quot;))))</formula>
+	IF(NOT(ISBLANK(LastModifiedBy_Text__c)), LastModifiedBy_Text__c,&quot;&quot;))))</formula>
         <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <inlineHelpText>Link the the user/contact that last modified the comment</inlineHelpText>
         <label>Last Modified By</label>
         <required>false</required>
         <trackTrending>false</trackTrending>
@@ -218,6 +242,7 @@
     </fields>
     <fields>
         <fullName>Last_Modified_Date__c</fullName>
+        <deprecated>false</deprecated>
         <description>The date the comment was last modified</description>
         <externalId>false</externalId>
         <inlineHelpText>The date the comment was last modified</inlineHelpText>

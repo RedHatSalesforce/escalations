@@ -60,6 +60,7 @@
     <fields>
         <fullName>Account__c</fullName>
         <deleteConstraint>SetNull</deleteConstraint>
+        <deprecated>false</deprecated>
         <description>The account for the escalation.</description>
         <externalId>false</externalId>
         <inlineHelpText>The account for the escalation.</inlineHelpText>

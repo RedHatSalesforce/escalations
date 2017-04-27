@@ -155,6 +155,7 @@ public with sharing class EscalationCaseTrigger extends BaseTrigger {
 		}
 
 		if (!escalationsToUpdate.isEmpty()) {
+			EscalationTrigger.setIsAddingEscalationCase();
 			update escalationsToUpdate.values();
 		}
 	}
@@ -237,6 +238,7 @@ public with sharing class EscalationCaseTrigger extends BaseTrigger {
 		}
 
 		if (!escalationsToUpdate.isEmpty()) {
+			EscalationTrigger.setIsAddingEscalationCase();
 			update escalationsToUpdate;
 		}
 
@@ -308,6 +310,7 @@ public with sharing class EscalationCaseTrigger extends BaseTrigger {
 		}
 
 		if (!escalationsToUpdate.isEmpty()) {
+			EscalationTrigger.setIsAddingEscalationCase();
 			update escalationsToUpdate;
 		}
 

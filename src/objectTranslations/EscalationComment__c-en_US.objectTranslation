@@ -48,8 +48,8 @@
     <fields>
         <help><!-- The contact that last modified the comment. Null if last modified by a user --></help>
         <label><!-- LastModifiedBy_Contact --></label>
-        <name>LastModifiedBy_Contact__c</name>
-        <relationshipLabel><!-- Escalation Comments --></relationshipLabel>
+        <name>LastModifiedByContact__c</name>
+        <relationshipLabel><!-- Escalation Comments (Last Modified By Contact) --></relationshipLabel>
     </fields>
     <fields>
         <help><!-- The id of the user/contact that last modified the comment --></help>
@@ -72,6 +72,7 @@
         <relationshipLabel><!-- Escalation Comments (LastModifiedBy_User) --></relationshipLabel>
     </fields>
     <fields>
+        <help><!-- Link the the user/contact that last modified the comment --></help>
         <label><!-- Last Modified By --></label>
         <name>Last_Modified_By_Link__c</name>
     </fields>
