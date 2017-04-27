@@ -52,12 +52,6 @@
         <relationshipLabel><!-- Escalation Comments (Last Modified By Contact) --></relationshipLabel>
     </fields>
     <fields>
-        <help><!-- Needs to be deprecated --></help>
-        <label><!-- LastModifiedBy_Contact_DEPRECATED --></label>
-        <name>LastModifiedBy_Contact__c</name>
-        <relationshipLabel><!-- Escalation Comments --></relationshipLabel>
-    </fields>
-    <fields>
         <help><!-- The id of the user/contact that last modified the comment --></help>
         <label><!-- LastModifiedBy_Id --></label>
         <name>LastModifiedBy_Id__c</name>

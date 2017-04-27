@@ -172,21 +172,6 @@
         <type>Lookup</type>
     </fields>
     <fields>
-        <fullName>LastModifiedBy_Contact__c</fullName>
-        <deleteConstraint>SetNull</deleteConstraint>
-        <deprecated>false</deprecated>
-        <description>Needs to be deprecated</description>
-        <externalId>false</externalId>
-        <inlineHelpText>Needs to be deprecated</inlineHelpText>
-        <label>LastModifiedBy_Contact_DEPRECATED</label>
-        <referenceTo>Contract</referenceTo>
-        <relationshipLabel>Escalation Comments</relationshipLabel>
-        <relationshipName>Escalation_Comments</relationshipName>
-        <required>false</required>
-        <trackTrending>false</trackTrending>
-        <type>Lookup</type>
-    </fields>
-    <fields>
         <fullName>LastModifiedBy_Id__c</fullName>
         <deprecated>false</deprecated>
         <description>The id of the user/contact that last modified the comment</description>
