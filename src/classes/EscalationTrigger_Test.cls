@@ -334,4 +334,62 @@ public class EscalationTrigger_Test {
 		System.assertEquals(testCase.Id, testEscalation.rh_escal__PrimaryCase__c, 'The primary case is not set correctly.');
 		System.assertEquals(testAccount.Id, testEscalation.rh_escal__Account__c, 'The primary case account should be equal to escalation account.');
 	}
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	//                          AssignDefaultOwnerOnEscalationCreation                              //
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+
+	static testMethod void assignDefaultOwnerOnEscalInsert_validTest() {
+		Account testAccount = TestUtils.getAccount();
+		insert testAccount;
+
+		User testUser = TestUtils.getTestUser(TestUtils.getEmailAddress('test.redhat.org'), 'Standard User');
+		insert testUser;
+
+		User adminUser = TestUtils.getAdminUser();
+
+		rh_escal__EscalationRouter__c er = TestUtils.getEscalationRouter('DEFAULT', testUser.Id);
+		insert er;
+
+		rh_escal__Escalation__c testEscalation = TestUtils.getEscalation();
+
+		System.runAs(adminUser) {
+			Test.startTest();
+
+			insert testEscalation;
+
+			Test.stopTest();
+		}
+
+		testEscalation = TestUtils.fetchEscalation(testEscalation);
+
+		System.assertEquals(testUser.Id, testEscalation.OwnerId, 'The owner on escalation is not set correctly.');
+	}
+
+	static testMethod void assignDefaultOwnerOnEscal_defaultOwnerNotGiven_validTest() {
+		Account testAccount = TestUtils.getAccount();
+		insert testAccount;
+
+		User testUser = TestUtils.getTestUser(TestUtils.getEmailAddress('test.redhat.org'), 'Standard User');
+		insert testUser;
+
+		User adminUser = TestUtils.getAdminUser();
+
+		rh_escal__EscalationRouter__c er = TestUtils.getEscalationRouter('DEFAULT', '');
+		insert er;
+
+		rh_escal__Escalation__c testEscalation = TestUtils.getEscalation();
+
+		System.runAs(adminUser) {
+			Test.startTest();
+
+			insert testEscalation;
+
+			Test.stopTest();
+		}
+
+		testEscalation = TestUtils.fetchEscalation(testEscalation);
+
+		System.assertEquals(adminUser.Id, testEscalation.OwnerId, 'The owner on escalation is not set correctly.');
+	}
 }
