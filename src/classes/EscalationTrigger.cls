@@ -58,6 +58,7 @@ public with sharing class EscalationTrigger extends BaseTrigger {
 	}
 
 	public static final String PRIMARYCASE_UPDATION_NOT_ALLOWED = 'Update the primary case by updating or adding an escalation case record';
+	public static final String DEFAULT_ESCAL_ROUTER = 'DEFAULT';
 
 	public static Boolean IS_ADDING_ESCALATIONCASE = false;
 
@@ -193,6 +194,24 @@ public with sharing class EscalationTrigger extends BaseTrigger {
 	}
 
 	/**
+	* Assign default owner to an escalation
+	*/
+	@TestVisible
+	private void assignDefaultOwner() {
+		if (!this.isInsert) {
+			return;
+		}
+
+		rh_escal__EscalationRouter__c er = rh_escal__EscalationRouter__c.getValues(DEFAULT_ESCAL_ROUTER);
+
+		for (rh_escal__Escalation__c escalation : this.newObjs) {
+			if (er != null && er.rh_escal__DefaultOwner__c != null) {
+				escalation.OwnerId = er.rh_escal__DefaultOwner__c;
+			}
+		}
+	}
+
+	/**
 	* Perform actions that should be done in the 'before' part of a trigger
 	*/
 	@TestVisible
@@ -202,6 +221,7 @@ public with sharing class EscalationTrigger extends BaseTrigger {
 		if (this.numberOfBeforeRuns == 1) {
 			this.setAccountWhenPrimaryCaseIsNotNull();
 			this.doNotAllowUpdateOfPrimaryCase();
+			this.assignDefaultOwner();
 		}
 	}
 

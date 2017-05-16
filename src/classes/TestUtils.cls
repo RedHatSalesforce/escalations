@@ -18,6 +18,12 @@ global class TestUtils {
 	/** The number that the account should be incremented by */
 	public static Integer ACCT_INC = STANDARD_INC;
 
+	/** The base number for an user number */
+	public static Integer USER_COUNT = 0;
+
+	/** The number that the user should be incremented by */
+	public static Integer USER_INC = STANDARD_INC;
+
 	/**
 	* Gets a random integer
 	*
@@ -123,7 +129,9 @@ global class TestUtils {
 		return [
 			select rh_escal__Account__c,
 				rh_escal__PrimaryCase__c,
-				rh_escal__PrimaryCase__r.AccountId
+				rh_escal__PrimaryCase__r.AccountId,
+				OwnerId,
+				Owner.Name
 			from rh_escal__Escalation__c
 			where Id = :escalation.Id
 		];
@@ -302,5 +310,64 @@ global class TestUtils {
 			from rh_escal__EscalationCase__c
 			where rh_escal__Escalation__c = :escalation.Id
 		];
+	}
+
+	/**
+	* Gets an rh_escal__EscalationRouter__c based on the information provided
+	*
+	* @param name The escalation router name
+	* @param userId The default user id
+	* @return A new rh_escal__EscalationRouter__c
+	*/
+	global static rh_escal__EscalationRouter__c getEscalationRouter(String name, String userId) {
+		return new rh_escal__EscalationRouter__c(
+			Name = name,
+			rh_escal__DefaultOwner__c = userId
+		);
+	}
+
+	/**
+	* Return a unique string.
+	*
+	* @param prefix is the prefix of the string to return.
+	* @return a unique string.
+	*/
+	public static String getUniqueString(final String prefix) {
+		return prefix + String.valueOf(getRandomInteger(1000000)) + Datetime.now().getTime();
+	}
+
+	/**
+	* Consolidate the generation of email addresses into one location
+	*
+	* @param domain a domain to append to the unique email address
+	* @return an email address that is unlikely to be duped
+	*/
+	public static String getEmailAddress(String domain) {
+		return getUniqueString('testuser') + '@' + domain;
+	}
+
+	/**
+	* Gets a user with the given profile and role
+	*
+	* @param username The username to use (must be in the form of an email)
+	* @param profile The name of the profile to use
+	* @return A test user
+	*/
+	public static User getTestUser(String username, String profile) {
+		Profile currentProfile = PROFILE_NAME_MAP.get(profile);
+
+		USER_COUNT += USER_INC;
+
+		return new User(
+			alias = 'admintes',
+			email = getEmailAddress('redhat.com'),
+			emailencodingkey = 'UTF-8',
+			lastname = 'Testing' + String.valueOf(USER_COUNT),
+			languagelocalekey = 'en_US',
+			localesidkey = 'en_US',
+			profileid = currentProfile.Id,
+			timezonesidkey = 'America/New_York',
+			username = username
+		);
 	}
 }
