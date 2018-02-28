@@ -104,19 +104,22 @@ public with sharing class EscalationTeamTrigger extends BaseTrigger {
 			Boolean isEmailNull = team.rh_escal__Email__c == null;
 
 			if (
-				(
-					!isContactNull && members.contains(team.rh_escal__Contact__c)
-				) || (
-					!isUserNull && members.contains(team.rh_escal__User__c)
-				) || (
-					!isEmailNull && emails.contains(team.rh_escal__Email__c)
-				) && (this.isInsert
-					|| (
-						this.oldMap.get(team.Id).rh_escal__Contact__c != team.rh_escal__Contact__c ||
-						this.oldMap.get(team.Id).rh_escal__User__c != team.rh_escal__User__c ||
-						this.oldMap.get(team.Id).rh_escal__Email__c != team.rh_escal__Email__c
+					(
+						(!isContactNull && members.contains(team.rh_escal__Contact__c)
+						) || (
+							!isUserNull && members.contains(team.rh_escal__User__c)
+						) || (
+							!isEmailNull && emails.contains(team.rh_escal__Email__c)
+						)
+					) &&
+					(
+						this.isInsert ||
+						(
+							this.oldMap.get(team.Id).rh_escal__Contact__c != team.rh_escal__Contact__c ||
+							this.oldMap.get(team.Id).rh_escal__User__c != team.rh_escal__User__c ||
+							this.oldMap.get(team.Id).rh_escal__Email__c != team.rh_escal__Email__c
+						)
 					)
-				)
 			) {
 				team.addError(EscalationTeamUtils.TEAM_MEMBER_ALREADY_LINKED);
 			}
