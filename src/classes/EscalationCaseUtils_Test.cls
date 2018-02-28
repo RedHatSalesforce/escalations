@@ -1,7 +1,7 @@
 /**
 * Test for the escalation case utilitites
 *
-*  @author Patrick Connelly (patrick@deadlypenguin.com)
+* @author Patrick Connelly (patrick@deadlypenguin.com)
 */
 
 @IsTest
