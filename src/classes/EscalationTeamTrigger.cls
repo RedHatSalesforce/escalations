@@ -99,23 +99,25 @@ public with sharing class EscalationTeamTrigger extends BaseTrigger {
 			Set<Id> members = escalToMembers.get(team.rh_escal__Escalation__c);
 			Set<String> emails = escalToEmails.get(team.rh_escal__Escalation__c);
 
-			Boolean isContactNull = team.rh_escal__Contact__c == null;
-			Boolean isUserNull = team.rh_escal__User__c == null;
-			Boolean isEmailNull = team.rh_escal__Email__c == null;
+			Boolean contactIsNotNull = team.rh_escal__Contact__c != null;
+			Boolean userIsNotNull = team.rh_escal__User__c != null;
+			Boolean emailIsNotNull = team.rh_escal__Email__c != null;
+
+			Boolean contactSetAndInTeam = contactIsNotNull && members.contains(team.rh_escal__Contact__c);
+			Boolean userSetAndInTeam = userIsNotNull && members.contains(team.rh_escal__User__c);
+			Boolean emailSetAndInTeam = emailIsNotNull && emails.contains(team.rh_escal__Email__c);
 
 			if (
 				(
-					!isContactNull && members.contains(team.rh_escal__Contact__c)
-				) || (
-					!isUserNull && members.contains(team.rh_escal__User__c)
-				) || (
-					!isEmailNull && emails.contains(team.rh_escal__Email__c)
-				) && (this.isInsert
-					|| (
-						this.oldMap.get(team.Id).rh_escal__Contact__c != team.rh_escal__Contact__c ||
-						this.oldMap.get(team.Id).rh_escal__User__c != team.rh_escal__User__c ||
-						this.oldMap.get(team.Id).rh_escal__Email__c != team.rh_escal__Email__c
-					)
+					contactSetAndInTeam || userSetAndInTeam || emailSetAndInTeam
+				) &&
+				(
+					this.isInsert ||
+						(
+							this.oldMap.get(team.Id).rh_escal__Contact__c != team.rh_escal__Contact__c ||
+							this.oldMap.get(team.Id).rh_escal__User__c != team.rh_escal__User__c ||
+							this.oldMap.get(team.Id).rh_escal__Email__c != team.rh_escal__Email__c
+						)
 				)
 			) {
 				team.addError(EscalationTeamUtils.TEAM_MEMBER_ALREADY_LINKED);
