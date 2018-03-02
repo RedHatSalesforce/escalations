@@ -478,16 +478,11 @@ public with sharing class EscalationTeamTrigger_Test {
 		System.assertEquals(testUser.Id, testEscalationTeam2.rh_escal__User__c, 'The team member should not have been added');
 	}
 
-	static testMethod void changeInternalDoesNotTriggerDupeException() {
+	static testMethod void changeInternalDoesNotTriggerDupeExceptionForEmailContact() {
 		Account testAccount = TestUtils.getAccount();
 		insert testAccount;
 
-		User testUser = TestUtils.getAdminUser();
-
 		String email = 'testEmail1@redHat.com';
-
-		Contact testContact = TestUtils.getContact(testAccount, 'testContact1');
-		insert testContact;
 
 		rh_escal__Escalation__c testEscalation = TestUtils.getEscalation();
 		insert testEscalation;
@@ -509,6 +504,65 @@ public with sharing class EscalationTeamTrigger_Test {
 		Test.stopTest();
 
 		testEscalationTeam = TestUtils.fetchEscalationTeam(testEscalationTeam);
-		System.assert(testEscalationTeam.rh_escal__Internal__c, 'Intnernal should be true');
+		System.assert(testEscalationTeam.rh_escal__Internal__c, 'Internal should be true');
+	}
+
+	static testMethod void changeInternalDoesNotTriggerDupeExceptionForContact() {
+		Account testAccount = TestUtils.getAccount();
+		insert testAccount;
+
+		Contact testContact = TestUtils.getContact(testAccount, 'testContact1');
+		insert testContact;
+
+		rh_escal__Escalation__c testEscalation = TestUtils.getEscalation();
+		insert testEscalation;
+
+		testEscalation = TestUtils.fetchEscalation(testEscalation);
+
+		rh_escal__EscalationTeam__c testEscalationTeam = TestUtils.getEscalationTeam(testEscalation, testContact, false);
+		insert testEscalationTeam;
+
+		testEscalationTeam.rh_escal__Internal__c = true;
+
+		BaseTrigger.triggerNameToInfoMap.clear();
+
+		Test.startTest();
+
+		update testEscalationTeam;
+
+		Test.stopTest();
+
+		testEscalationTeam = TestUtils.fetchEscalationTeam(testEscalationTeam);
+		System.assert(testEscalationTeam.rh_escal__Internal__c, 'Internal should be true');
+	}
+
+	static testMethod void changeInternalDoesNotTriggerDupeExceptionForUser() {
+		Account testAccount = TestUtils.getAccount();
+		insert testAccount;
+
+		Contact testContact = TestUtils.getContact(testAccount, 'testContact1');
+		insert testContact;
+
+		rh_escal__Escalation__c testEscalation = TestUtils.getEscalation();
+		insert testEscalation;
+
+		testEscalation = TestUtils.fetchEscalation(testEscalation);
+
+		rh_escal__EscalationTeam__c testEscalationTeam = TestUtils.getEscalationTeam(testEscalation, TestUtils.getAdminUser());
+		testEscalationTeam.rh_escal__Internal__c =false;
+		insert testEscalationTeam;
+
+		testEscalationTeam.rh_escal__Internal__c = true;
+
+		BaseTrigger.triggerNameToInfoMap.clear();
+
+		Test.startTest();
+
+		update testEscalationTeam;
+
+		Test.stopTest();
+
+		testEscalationTeam = TestUtils.fetchEscalationTeam(testEscalationTeam);
+		System.assert(testEscalationTeam.rh_escal__Internal__c, 'Internal should be true');
 	}
 }
