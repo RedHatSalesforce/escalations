@@ -289,6 +289,32 @@ global class TestUtils {
 	}
 
 	/**
+	* Create a standard user
+	*
+	* @return The user created
+	*/
+	public static User createTestUser() {
+		User testUser;
+		System.runAs(getAdminUser()) {
+			String userName = getEmailAddress('test.com');
+			String lastName = getUniqueString('lastName');
+			testUser = new User(
+				alias = 'unitTest',
+				email = userName,
+				emailencodingkey = 'UTF-8',
+				lastName = lastName,
+				languagelocalekey = 'en_US',
+				localesidkey = 'en_US',
+				profileid = PROFILE_NAME_MAP.get('Standard User').Id,
+				timezonesidkey = 'America/New_York',
+				username = userName
+			);
+			insert testUser;
+		}
+		return testUser;
+	}
+
+	/**
 	* Fetches all escalation cases for a given escalation
 	*
 	* @param escalation The escalation to get it's cases
@@ -303,4 +329,25 @@ global class TestUtils {
 			where rh_escal__Escalation__c = :escalation.Id
 		];
 	}
+
+	/**
+	* Return a unique string.
+	*
+	* @param prefix is the prefix of the string to return.
+	* @return a unique string.
+	*/
+	public static String getUniqueString(final String prefix) {
+		return prefix + String.valueOf(getRandomInteger(1000000)) + Datetime.now().getTime();
+	}
+
+	/**
+	* Consolidate the generation of email addresses into one location
+	*
+	* @param domain a domain to append to the unique email address
+	* @return an email address that is unlikely to be duped
+	*/
+	public static String getEmailAddress(String domain) {
+		return getUniqueString('testuser') + '@' + domain;
+	}
+
 }

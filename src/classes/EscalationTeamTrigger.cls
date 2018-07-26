@@ -58,6 +58,19 @@ public with sharing class EscalationTeamTrigger extends BaseTrigger {
 	}
 
 	/**
+	* Ensure that the team member has exactly one contact method, no more or less, or raise an exception
+	*/
+	@TestVisible
+	private void ensureValidTeamMember() {
+		if (this.isDelete) {
+			return;
+		}
+		for (rh_escal__EscalationTeam__c team : this.newObjs) {
+			EscalationTeamUtils.ensureOnlyOneContactTypeSet(team);
+		}
+	}
+
+	/**
 	* Do not allow addition of duplicate team members on an escalation
 	*/
 	@TestVisible
@@ -86,6 +99,7 @@ public with sharing class EscalationTeamTrigger extends BaseTrigger {
 			escalToEmails.put(escalationId, new Set<String>());
 		}
 
+
 		for (rh_escal__EscalationTeam__c team: EscalationTeamUtils.getEscalationTeamMembers(escalationIds)) {
 			escalToMembers.get(team.rh_escal__Escalation__c).add(team.rh_escal__Contact__c);
 			escalToMembers.get(team.rh_escal__Escalation__c).add(team.rh_escal__User__c);
@@ -98,28 +112,9 @@ public with sharing class EscalationTeamTrigger extends BaseTrigger {
 		for (rh_escal__EscalationTeam__c team: this.newObjs) {
 			Set<Id> members = escalToMembers.get(team.rh_escal__Escalation__c);
 			Set<String> emails = escalToEmails.get(team.rh_escal__Escalation__c);
+			Boolean alreadyExists = EscalationTeamUtils.checkMemberAlreadyExists(team, members, emails);
 
-			Boolean contactIsNotNull = team.rh_escal__Contact__c != null;
-			Boolean userIsNotNull = team.rh_escal__User__c != null;
-			Boolean emailIsNotNull = team.rh_escal__Email__c != null;
-
-			Boolean contactSetAndInTeam = contactIsNotNull && members.contains(team.rh_escal__Contact__c);
-			Boolean userSetAndInTeam = userIsNotNull && members.contains(team.rh_escal__User__c);
-			Boolean emailSetAndInTeam = emailIsNotNull && emails.contains(team.rh_escal__Email__c);
-
-			if (
-				(
-					contactSetAndInTeam || userSetAndInTeam || emailSetAndInTeam
-				) &&
-				(
-					this.isInsert ||
-						(
-							this.oldMap.get(team.Id).rh_escal__Contact__c != team.rh_escal__Contact__c ||
-							this.oldMap.get(team.Id).rh_escal__User__c != team.rh_escal__User__c ||
-							this.oldMap.get(team.Id).rh_escal__Email__c != team.rh_escal__Email__c
-						)
-				)
-			) {
+			if (alreadyExists && (isInsert || EscalationTeamUtils.memberValuesChanged(this.oldMap, team))) {
 				team.addError(EscalationTeamUtils.TEAM_MEMBER_ALREADY_LINKED);
 			}
 		}
@@ -133,6 +128,7 @@ public with sharing class EscalationTeamTrigger extends BaseTrigger {
 		super.runBefore();
 
 		if (this.numberOfBeforeRuns == 1) {
+			this.ensureValidTeamMember();
 			this.teamDupCheck();
 		}
 	}

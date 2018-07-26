@@ -250,6 +250,7 @@ public with sharing class EscalationTeamTrigger_Test {
 
 		testEscalationTeam2 = TestUtils.fetchEscalationTeam(testEscalationTeam2);
 
+		testEscalationTeam2.rh_escal__Email__c = null;
 		testEscalationTeam2.rh_escal__Contact__c = testContact.Id;
 
 		BaseTrigger.triggerNameToInfoMap.clear();
@@ -336,6 +337,7 @@ public with sharing class EscalationTeamTrigger_Test {
 
 		testEscalationTeam2 = TestUtils.fetchEscalationTeam(testEscalationTeam2);
 
+		testEscalationTeam2.rh_escal__Contact__c = null;
 		testEscalationTeam2.rh_escal__Email__c = email;
 
 		BaseTrigger.triggerNameToInfoMap.clear();
@@ -377,6 +379,7 @@ public with sharing class EscalationTeamTrigger_Test {
 
 		testEscalationTeam2 = TestUtils.fetchEscalationTeam(testEscalationTeam2);
 
+		testEscalationTeam2.rh_escal__Contact__c = null;
 		testEscalationTeam2.rh_escal__Email__c = email2;
 
 		BaseTrigger.triggerNameToInfoMap.clear();
@@ -418,6 +421,7 @@ public with sharing class EscalationTeamTrigger_Test {
 
 		testEscalationTeam2 = TestUtils.fetchEscalationTeam(testEscalationTeam2);
 
+		testEscalationTeam2.rh_escal__Email__c = null;
 		testEscalationTeam2.rh_escal__User__c = testUser.Id;
 
 		BaseTrigger.triggerNameToInfoMap.clear();
@@ -460,6 +464,7 @@ public with sharing class EscalationTeamTrigger_Test {
 
 		testEscalationTeam2 = TestUtils.fetchEscalationTeam(testEscalationTeam2);
 
+		testEscalationTeam2.rh_escal__Contact__c = null;
 		testEscalationTeam2.rh_escal__User__c = testUser.Id;
 
 		BaseTrigger.triggerNameToInfoMap.clear();
@@ -564,5 +569,71 @@ public with sharing class EscalationTeamTrigger_Test {
 
 		testEscalationTeam = TestUtils.fetchEscalationTeam(testEscalationTeam);
 		System.assert(testEscalationTeam.rh_escal__Internal__c, 'Internal should be true');
+	}
+
+	static testMethod void ensureValidTeamMember_valid() {
+		User testUser = TestUtils.createTestUser();
+
+		rh_escal__Escalation__c escal = TestUtils.getEscalation();
+		insert escal;
+
+		rh_escal__EscalationTeam__c teamMember = TestUtils.getEscalationTeam(escal, testUser);
+
+		BaseTrigger.triggerNameToInfoMap.clear();
+
+		Test.startTest();
+
+		insert teamMember;
+
+		Test.stopTest();
+
+		System.assert(true, 'We should not have raised any exceptions');
+	}
+
+	static testMethod void ensureValidTeamMember_noContactTypes_invalid() {
+		rh_escal__Escalation__c escal = TestUtils.getEscalation();
+		insert escal;
+
+		rh_escal__EscalationTeam__c teamMember = new rh_escal__EscalationTeam__c();
+
+		BaseTrigger.triggerNameToInfoMap.clear();
+
+		String expectedError = 'caused by: rh_escal.EscalationTeamUtils.InvalidException: ' + EscalationTeamUtils.MSG_INVALID_TEAM_NO_TYPES;
+
+		Test.startTest();
+
+		try {
+			insert teamMember;
+			System.assert(false, 'We should have raised an exception by now');
+		} catch (System.DmlException e) {
+			System.assert(e.getMessage().contains(expectedError), 'Got right exception, but wrong message');
+		}
+
+		Test.stopTest();
+	}
+
+	static testMethod void ensureValidTeamMember_tooManyContactTypes_invalid() {
+		User testUser = TestUtils.createTestUser();
+
+		rh_escal__Escalation__c escal = TestUtils.getEscalation();
+		insert escal;
+
+		rh_escal__EscalationTeam__c teamMember = TestUtils.getEscalationTeam(escal, testUser);
+		teamMember.Email__c = TestUtils.getEmailAddress('test.com');
+
+		BaseTrigger.triggerNameToInfoMap.clear();
+
+		String expectedError = 'caused by: rh_escal.EscalationTeamUtils.InvalidException: ' + EscalationTeamUtils.MSG_INVALID_TEAM_TOO_MANY_TYPES;
+
+		Test.startTest();
+
+		try {
+			insert teamMember;
+			System.assert(false, 'We should have raised an exception by now');
+		} catch (System.DmlException e) {
+			System.assert(e.getMessage().contains(expectedError), 'Got right exception, but wrong message [' + e.getMessage() + ']');
+		}
+
+		Test.stopTest();
 	}
 }
