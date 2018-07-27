@@ -62,7 +62,6 @@ global with sharing class EscalationTeamUtils {
 		return contactSetAndInTeam || userSetAndInTeam || emailSetAndInTeam;
 	}
 
-
 	/**
 	* determine if an escalation team member has changed any of it's values
 	*
