@@ -9,7 +9,7 @@ global with sharing abstract class BaseTrigger {
 	public class NoBulkException extends Exception {}
 
 	/** The map of trigger names to their info class */
-	@TestVisible static private Map<String, TriggerInfo> triggerNameToInfoMap = new Map<String, TriggerInfo>();
+	@TestVisible static global Map<String, TriggerInfo> triggerNameToInfoMap = new Map<String, TriggerInfo>();
 
 	/** Class to keep track of trigger run information */
 	@TestVisible
