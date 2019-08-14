@@ -4,7 +4,7 @@
 * @author Daniel Fisher (dfisher@redhat.com)
 * @testClasses BaseTrigger_Test
 */
-public with sharing abstract class BaseTrigger {
+global with sharing abstract class BaseTrigger {
 	/** An exception to be thrown when a method doesn't support bulk operations */
 	public class NoBulkException extends Exception {}
 
@@ -216,7 +216,7 @@ public with sharing abstract class BaseTrigger {
 	*
 	* @return a unique string that will allow the centralization of static information in the BaseTrigger class
 	*/
-	public abstract String getTriggerName();
+	global abstract String getTriggerName();
 
 	/**
 	* Perform actions that should be done in the 'before' part of a trigger
