@@ -4,7 +4,7 @@
 * @author Preeti (ppreeti@redhat.com)
 * @testClasses EscalationTeamTrigger_Test
 */
-public with sharing class EscalationTeamTrigger extends BaseTrigger {
+global with sharing class EscalationTeamTrigger extends BaseTrigger {
 	/** The old map of objects */
 	@TestVisible Map<Id, rh_escal__EscalationTeam__c> oldMap {
 		get {
