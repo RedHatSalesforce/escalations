@@ -9,7 +9,8 @@ private class EscalationCaseTrigger_Test {
 	////////////////////////////////////////////////////////////////////////////////////
 	//                             setPrimaryCaseOnInsert                             //
 	////////////////////////////////////////////////////////////////////////////////////
-	static testMethod void setPrimaryCaseOnInsert_firstCase() {
+	@isTest
+	static void setPrimaryCaseOnInsert_firstCase() {
 		Account testAccount = TestUtils.getAccount();
 		insert testAccount;
 
@@ -34,7 +35,8 @@ private class EscalationCaseTrigger_Test {
 		System.assert(testEscalationCase.rh_escal__Primary__c, 'The escalation case should have been marked as primary');
 	}
 
-	static testMethod void setPrimaryCaseOnInsert_secondCase_noOverwrite() {
+	@isTest
+	static void setPrimaryCaseOnInsert_secondCase_noOverwrite() {
 		Account testAccount = TestUtils.getAccount();
 		insert testAccount;
 
@@ -65,7 +67,8 @@ private class EscalationCaseTrigger_Test {
 		System.assert(!testEscalationCase2.rh_escal__Primary__c, 'The escalation case should not have been marked as primary');
 	}
 
-	static testMethod void setPrimaryCaseOnInsert_secondCase_newPrimary() {
+	@isTest
+	static void setPrimaryCaseOnInsert_secondCase_newPrimary() {
 		Account testAccount = TestUtils.getAccount();
 		insert testAccount;
 
@@ -101,7 +104,8 @@ private class EscalationCaseTrigger_Test {
 		System.assert(testEscalationCase2.rh_escal__Primary__c, 'The escalation case should have been marked as primary');
 	}
 
-	static testMethod void setPrimaryCaseOnInsert_secondCase_newPrimaryMultiple() {
+	@isTest
+	static void setPrimaryCaseOnInsert_secondCase_newPrimaryMultiple() {
 		Account testAccount = TestUtils.getAccount();
 		insert testAccount;
 
@@ -151,7 +155,8 @@ private class EscalationCaseTrigger_Test {
 	////////////////////////////////////////////////////////////////////////////////////
 	//                             setPrimaryCaseOnDelete                             //
 	////////////////////////////////////////////////////////////////////////////////////
-	static testMethod void setPrimaryCaseOnDelete_deletePrimary() {
+	@isTest
+	static void setPrimaryCaseOnDelete_deletePrimary() {
 		Account testAccount = TestUtils.getAccount();
 		insert testAccount;
 
@@ -208,7 +213,8 @@ private class EscalationCaseTrigger_Test {
 		System.assert(testEscalationCase3.rh_escal__Primary__c, 'The escalation case should have been marked as primary');
 	}
 
-	static testMethod void setPrimaryCaseOnDelete_deleteNonPrimary() {
+	@isTest
+	static void setPrimaryCaseOnDelete_deleteNonPrimary() {
 		Account testAccount = TestUtils.getAccount();
 		insert testAccount;
 
@@ -253,7 +259,8 @@ private class EscalationCaseTrigger_Test {
 		System.assert(testEscalationCase2.rh_escal__Primary__c, 'The escalation case should have been marked as primary');
 	}
 
-	static testMethod void setPrimaryCaseOnDelete_deleteOnlyPrimary() {
+	@isTest
+	static void setPrimaryCaseOnDelete_deleteOnlyPrimary() {
 		Account testAccount = TestUtils.getAccount();
 		insert testAccount;
 
@@ -289,7 +296,8 @@ private class EscalationCaseTrigger_Test {
 	////////////////////////////////////////////////////////////////////////////////////
 	//                             setPrimaryCaseOnUpdate                             //
 	////////////////////////////////////////////////////////////////////////////////////
-	static testMethod void setPrimaryCaseOnUpdate_removePrimary() {
+	@isTest
+	static void setPrimaryCaseOnUpdate_removePrimary() {
 		Account testAccount = TestUtils.getAccount();
 		insert testAccount;
 
@@ -350,7 +358,8 @@ private class EscalationCaseTrigger_Test {
 		System.assert(testEscalationCase3.rh_escal__Primary__c, 'The escalation case should have been marked as primary');
 	}
 
-	static testMethod void setPrimaryCaseOnUpdate_setPrimary() {
+	@isTest
+	static void setPrimaryCaseOnUpdate_setPrimary() {
 		Account testAccount = TestUtils.getAccount();
 		insert testAccount;
 
@@ -411,7 +420,8 @@ private class EscalationCaseTrigger_Test {
 		System.assert(testEscalationCase3.rh_escal__Primary__c, 'The escalation case should have been marked as primary');
 	}
 
-	static testMethod void setPrimaryCaseOnUpdate_removePrimaryOnlyCase() {
+	@isTest
+	static void setPrimaryCaseOnUpdate_removePrimaryOnlyCase() {
 		Account testAccount = TestUtils.getAccount();
 		insert testAccount;
 
@@ -452,7 +462,8 @@ private class EscalationCaseTrigger_Test {
 		System.assert(testEscalationCase.rh_escal__Primary__c, 'The escalation case should have been marked as primary');
 	}
 
-	static testMethod void setPrimaryCaseOnUpdate_noBulk() {
+	@isTest
+	static void setPrimaryCaseOnUpdate_noBulk() {
 		Account testAccount = TestUtils.getAccount();
 		insert testAccount;
 
@@ -526,7 +537,8 @@ private class EscalationCaseTrigger_Test {
 	//                     LinkExistingEscalationCaseAgainOnSameEscalation                     //
 	/////////////////////////////////////////////////////////////////////////////////////////////
 
-	static testMethod void setDuplicateCaseOnAnEscalation_validTest() {
+	@isTest
+	static void setDuplicateCaseOnAnEscalation_validTest() {
 		Account testAccount = TestUtils.getAccount();
 		insert testAccount;
 
@@ -561,7 +573,8 @@ private class EscalationCaseTrigger_Test {
 		System.assertEquals(null, testEscalationCase2.Id, 'The case should not have been added');
 	}
 
-	static testMethod void setUniqueCaseOnAnEscalation_validTest() {
+	@isTest
+	static void setUniqueCaseOnAnEscalation_validTest() {
 		Account testAccount = TestUtils.getAccount();
 		insert testAccount;
 

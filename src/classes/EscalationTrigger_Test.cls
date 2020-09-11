@@ -9,7 +9,8 @@ public class EscalationTrigger_Test {
 	////////////////////////////////////////////////////////////////////////////////////
 	//                             setAccountOnInsert                                 //
 	////////////////////////////////////////////////////////////////////////////////////
-	static testMethod void setAccountOnInsert_primaryCaseNotNull_valid() {
+	@isTest
+	static void setAccountOnInsert_primaryCaseNotNull_valid() {
 		Account testAccount = TestUtils.getAccount();
 		insert testAccount;
 
@@ -31,7 +32,8 @@ public class EscalationTrigger_Test {
 		System.assertEquals(testAccount.Id, testEscalation.rh_escal__Account__c, 'The account is not set correctly.');
 	}
 
-	static testMethod void setAccountOnInsert_primaryCaseNull_doNothingValidTest() {
+	@isTest
+	static void setAccountOnInsert_primaryCaseNull_doNothingValidTest() {
 		Account testAccount = TestUtils.getAccount();
 		insert testAccount;
 
@@ -52,7 +54,8 @@ public class EscalationTrigger_Test {
 		System.assertEquals(null, testEscalation.rh_escal__Account__c, 'The account is not set correctly.');
 	}
 
-	static testMethod void setAccountOnInsert_primaryCaseNotNull_accountNotNull_doNothingValidTest() {
+	@isTest
+	static void setAccountOnInsert_primaryCaseNotNull_accountNotNull_doNothingValidTest() {
 		Account testAccount = TestUtils.getAccount();
 		insert testAccount;
 
@@ -79,7 +82,8 @@ public class EscalationTrigger_Test {
 	//                             setAccountOnUpdate                                 //
 	////////////////////////////////////////////////////////////////////////////////////
 
-	static testMethod void setAccountOnUpdate_primaryCaseNotNull_valid() {
+	@isTest
+	static void setAccountOnUpdate_primaryCaseNotNull_valid() {
 		Account testAccount = TestUtils.getAccount();
 		insert testAccount;
 
@@ -108,7 +112,8 @@ public class EscalationTrigger_Test {
 		System.assertEquals(testAccount.Id, testEscalation.rh_escal__Account__c, 'The primary case account should be equal to escalation account.');
 	}
 
-	static testMethod void setAccountOnUpdate_primaryCaseNull_accountNotNull_doNothingValidTest() {
+	@isTest
+	static void setAccountOnUpdate_primaryCaseNull_accountNotNull_doNothingValidTest() {
 		Account testAccount = TestUtils.getAccount();
 		insert testAccount;
 
@@ -132,7 +137,8 @@ public class EscalationTrigger_Test {
 		System.assertEquals(testAccount.Id, testEscalation.rh_escal__Account__c, 'The account is not set correctly.');
 	}
 
-	static testMethod void setAccountOnUpdate_primaryCaseNotNull_accountNotNull_doNothingValidTest() {
+	@isTest
+	static void setAccountOnUpdate_primaryCaseNotNull_accountNotNull_doNothingValidTest() {
 		Account testAccount = TestUtils.getAccount();
 		insert testAccount;
 
@@ -157,7 +163,8 @@ public class EscalationTrigger_Test {
 		System.assertEquals(testAccount.Id, testEscalation.rh_escal__Account__c, 'The primary case account should be equal to escalation account.');
 	}
 
-	static testMethod void setAccountOnUpdate_primaryCaseNull_accountNull_doNothingValidTest() {
+	@isTest
+	static void setAccountOnUpdate_primaryCaseNull_accountNull_doNothingValidTest() {
 		Account testAccount = TestUtils.getAccount();
 		insert testAccount;
 
@@ -191,7 +198,8 @@ public class EscalationTrigger_Test {
 	//                   createEscalationCaseRecordOnEscalationInsert                 //
 	////////////////////////////////////////////////////////////////////////////////////
 
-	static testMethod void createEscalationCaseRecord_primaryCaseOnEscalationNotNull_valid() {
+	@isTest
+	static void createEscalationCaseRecord_primaryCaseOnEscalationNotNull_valid() {
 		Account testAccount = TestUtils.getAccount();
 		insert testAccount;
 
@@ -219,7 +227,8 @@ public class EscalationTrigger_Test {
 		System.assertEquals(testEscalation.Id, escalCase.rh_escal__Escalation__c, 'The escalation id was not set correctly.');
 	}
 
-	static testMethod void doNotCreateEscalationCaseRecord_primaryCaseOnEscalationNull_valid() {
+	@isTest
+	static void doNotCreateEscalationCaseRecord_primaryCaseOnEscalationNull_valid() {
 		Account testAccount = TestUtils.getAccount();
 		insert testAccount;
 
@@ -246,7 +255,8 @@ public class EscalationTrigger_Test {
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 	//                     AllowSettingOfPimaryCaseWheneverEscalationIsInserted                     //
 	//////////////////////////////////////////////////////////////////////////////////////////////////
-	static testMethod void setPrimaryCaseNotNull_onInsert_valid() {
+	@isTest
+	static void setPrimaryCaseNotNull_onInsert_valid() {
 		Account testAccount = TestUtils.getAccount();
 		insert testAccount;
 
@@ -273,7 +283,8 @@ public class EscalationTrigger_Test {
 	//                     DoNotAllowSettingOfPimaryCaseWheneverEscalationIsUpdated                 //
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 
-	static testMethod void doNotAllowSettingPrimaryCase_onUpdate_validTest() {
+	@isTest
+	static void doNotAllowSettingPrimaryCase_onUpdate_validTest() {
 		Account testAccount = TestUtils.getAccount();
 		insert testAccount;
 
@@ -307,7 +318,8 @@ public class EscalationTrigger_Test {
 		System.assertEquals(0, escalCases.size(), 'Got the escal case that we did not expected.');
 	}
 
-	static testMethod void primaryCaseSettingCorrectly_onEscalationCaseInsert_validTest() {
+	@isTest
+	static void primaryCaseSettingCorrectly_onEscalationCaseInsert_validTest() {
 		Account testAccount = TestUtils.getAccount();
 		insert testAccount;
 

@@ -6,7 +6,8 @@
 
 @IsTest
 private with sharing class EscalationTeamUtils_Test {
-	static testMethod void getEscalationTeamMemberMapTest() {
+	@isTest
+	static void getEscalationTeamMemberMapTest() {
 		Account testAccount = TestUtils.getAccount();
 		insert testAccount;
 
@@ -69,7 +70,8 @@ private with sharing class EscalationTeamUtils_Test {
 		System.assert(expectedResults.isEmpty(), 'Did not get back all the Ids we expected');
 	}
 
-	static testMethod void getEscalationTeamMembersTest() {
+	@isTest
+	static void getEscalationTeamMembersTest() {
 		Account testAccount = TestUtils.getAccount();
 		insert testAccount;
 
@@ -138,7 +140,8 @@ private with sharing class EscalationTeamUtils_Test {
 		System.assert(expectedResults.isEmpty(), 'Did not get back all the Ids we expected');
 	}
 
-	static testMethod void checkMemberAlreadyExists_contactExists() {
+	@isTest
+	static void checkMemberAlreadyExists_contactExists() {
 		Account testAccount = TestUtils.getAccount();
 		insert testAccount;
 
@@ -158,7 +161,8 @@ private with sharing class EscalationTeamUtils_Test {
 		Test.stopTest();
 	}
 
-	static testMethod void checkMemberAlreadyExists_userExists() {
+	@isTest
+	static void checkMemberAlreadyExists_userExists() {
 		Account testAccount = TestUtils.getAccount();
 		insert testAccount;
 
@@ -177,7 +181,8 @@ private with sharing class EscalationTeamUtils_Test {
 		Test.stopTest();
 	}
 
-	static testMethod void checkMemberAlreadyExists_emailExists() {
+	@isTest
+	static void checkMemberAlreadyExists_emailExists() {
 		Account testAccount = TestUtils.getAccount();
 		insert testAccount;
 
@@ -196,7 +201,8 @@ private with sharing class EscalationTeamUtils_Test {
 		Test.stopTest();
 	}
 
-	static testMethod void checkMemberAlreadyExists_noneExist() {
+	@isTest
+	static void checkMemberAlreadyExists_noneExist() {
 		Account testAccount = TestUtils.getAccount();
 		insert testAccount;
 
@@ -213,7 +219,8 @@ private with sharing class EscalationTeamUtils_Test {
 		Test.stopTest();
 	}
 
-	static testMethod void memberValuesChanged_contactChanged() {
+	@isTest
+	static void memberValuesChanged_contactChanged() {
 		Account testAccount = TestUtils.getAccount();
 		insert testAccount;
 
@@ -235,7 +242,8 @@ private with sharing class EscalationTeamUtils_Test {
 		Test.stopTest();
 	}
 
-	static testMethod void memberValuesChanged_userChanged() {
+	@isTest
+	static void memberValuesChanged_userChanged() {
 		Account testAccount = TestUtils.getAccount();
 		insert testAccount;
 
@@ -253,7 +261,8 @@ private with sharing class EscalationTeamUtils_Test {
 		Test.stopTest();
 	}
 
-	static testMethod void memberValuesChanged_emailChanged() {
+	@isTest
+	static void memberValuesChanged_emailChanged() {
 		Account testAccount = TestUtils.getAccount();
 		insert testAccount;
 
@@ -271,7 +280,8 @@ private with sharing class EscalationTeamUtils_Test {
 		Test.stopTest();
 	}
 
-	static testMethod void memberValuesChanged_hasContactNoChange() {
+	@isTest
+	static void memberValuesChanged_hasContactNoChange() {
 		Account testAccount = TestUtils.getAccount();
 		insert testAccount;
 
@@ -291,7 +301,8 @@ private with sharing class EscalationTeamUtils_Test {
 		Test.stopTest();
 	}
 
-	static testMethod void memberValuesChanged_hasUserNoChange() {
+	@isTest
+	static void memberValuesChanged_hasUserNoChange() {
 		Account testAccount = TestUtils.getAccount();
 		insert testAccount;
 
@@ -310,7 +321,8 @@ private with sharing class EscalationTeamUtils_Test {
 		Test.stopTest();
 	}
 
-	static testMethod void memberValuesChanged_hasEmailNoChange() {
+	@isTest
+	static void memberValuesChanged_hasEmailNoChange() {
 		Account testAccount = TestUtils.getAccount();
 		insert testAccount;
 
@@ -329,7 +341,8 @@ private with sharing class EscalationTeamUtils_Test {
 		Test.stopTest();
 	}
 
-	static testMethod void ensureOnlyOneContactTypeSet_oneType_User() {
+	@isTest
+	static void ensureOnlyOneContactTypeSet_oneType_User() {
 		User testUser = TestUtils.createTestUser();
 
 		rh_escal__Escalation__c escal = TestUtils.getEscalation();
@@ -346,7 +359,8 @@ private with sharing class EscalationTeamUtils_Test {
 		System.assert(true, 'We should not have raised any exceptions');
 	}
 
-	static testMethod void ensureOnlyOneContactTypeSet_oneType_Contact() {
+	@isTest
+	static void ensureOnlyOneContactTypeSet_oneType_Contact() {
 		Account testAccount = TestUtils.getAccount();
 		insert testAccount;
 
@@ -367,7 +381,8 @@ private with sharing class EscalationTeamUtils_Test {
 		System.assert(true, 'We should not have raised any exceptions');
 	}
 
-	static testMethod void ensureOnlyOneContactTypeSet_oneType_Email() {
+	@isTest
+	static void ensureOnlyOneContactTypeSet_oneType_Email() {
 		Account testAccount = TestUtils.getAccount();
 		insert testAccount;
 
@@ -387,7 +402,8 @@ private with sharing class EscalationTeamUtils_Test {
 		System.assert(true, 'We should not have raised any exceptions');
 	}
 
-	static testMethod void ensureOnlyOneContactTypeSet_twoTypes_invalid() {
+	@isTest
+	static void ensureOnlyOneContactTypeSet_twoTypes_invalid() {
 		Account testAccount = TestUtils.getAccount();
 		insert testAccount;
 
@@ -414,7 +430,8 @@ private with sharing class EscalationTeamUtils_Test {
 		Test.stopTest();
 	}
 
-	static testMethod void ensureOnlyOneContactTypeSet_threeTypes_invalid() {
+	@isTest
+	static void ensureOnlyOneContactTypeSet_threeTypes_invalid() {
 		Account testAccount = TestUtils.getAccount();
 		insert testAccount;
 
@@ -442,7 +459,8 @@ private with sharing class EscalationTeamUtils_Test {
 		Test.stopTest();
 	}
 
-	static testMethod void ensureOnlyOneContactTypeSet_zeroTypes_invalid() {
+	@isTest
+	static void ensureOnlyOneContactTypeSet_zeroTypes_invalid() {
 		Account testAccount = TestUtils.getAccount();
 		insert testAccount;
 
