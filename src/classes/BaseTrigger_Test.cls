@@ -30,7 +30,8 @@ private class BaseTrigger_Test {
 		}
 	}
 
-	static testMethod void TriggerInfo_baseConstructor() {
+	@isTest
+	static void TriggerInfo_baseConstructor() {
 		Test.startTest();
 		BaseTrigger.TriggerInfo ti = new BaseTrigger.TriggerInfo();
 		Test.stopTest();
@@ -39,7 +40,8 @@ private class BaseTrigger_Test {
 		System.assertEquals(0, ti.numberOfAfterRuns, 'incorrect numberOfAfterRuns');
 	}
 
-	static testMethod void TriggerInfo_Constructor() {
+	@isTest
+	static void TriggerInfo_Constructor() {
 		String triggerName = 'Blah';
 
 		Test.startTest();
@@ -51,7 +53,8 @@ private class BaseTrigger_Test {
 		System.assertEquals(triggerName, ti.triggerClassName, 'incorrect triggerClassName');
 	}
 
-	static testMethod void TriggerInfo_iterateRunBefore() {
+	@isTest
+	static void TriggerInfo_iterateRunBefore() {
 		String triggerName = 'Blah';
 
 		BaseTrigger.TriggerInfo ti = new BaseTrigger.TriggerInfo(triggerName);
@@ -65,7 +68,8 @@ private class BaseTrigger_Test {
 		System.assertEquals(triggerName, ti.triggerClassName, 'incorrect triggerClassName');
 	}
 
-	static testMethod void TriggerInfo_iterateRunAfter() {
+	@isTest
+	static void TriggerInfo_iterateRunAfter() {
 		String triggerName = 'Blah';
 
 		BaseTrigger.TriggerInfo ti = new BaseTrigger.TriggerInfo(triggerName);
@@ -79,7 +83,8 @@ private class BaseTrigger_Test {
 		System.assertEquals(triggerName, ti.triggerClassName, 'incorrect triggerClassName');
 	}
 
-	static testMethod void constructor() {
+	@isTest
+	static void constructor() {
 		Account a = TestUtils.getAccount();
 
 		List<Account> accounts = new List<Account> {a};
@@ -116,7 +121,8 @@ private class BaseTrigger_Test {
 		);
 	}
 
-	static testMethod void baseNewObjs_empty() {
+	@isTest
+	static void baseNewObjs_empty() {
 		ExampleTrigger bt = new ExampleTrigger();
 		bt.isBefore = false;
 
@@ -135,7 +141,8 @@ private class BaseTrigger_Test {
 		Test.stopTest();
 	}
 
-	static testMethod void baseNewObjs_notEmpty() {
+	@isTest
+	static void baseNewObjs_notEmpty() {
 		ExampleTrigger bt = new ExampleTrigger();
 		bt.isBefore = false;
 
@@ -173,7 +180,8 @@ private class BaseTrigger_Test {
 		System.assertEquals(0, expectedBaseNewObjs.size(), 'Did not get the all the expected objects: ' + expectedBaseNewObjs);
 	}
 
-	static testMethod void baseOldMap_empty() {
+	@isTest
+	static void baseOldMap_empty() {
 		ExampleTrigger bt = new ExampleTrigger();
 		bt.isBefore = false;
 
@@ -192,7 +200,8 @@ private class BaseTrigger_Test {
 		Test.stopTest();
 	}
 
-	static testMethod void baseOldMap_notEmpty() {
+	@isTest
+	static void baseOldMap_notEmpty() {
 		ExampleTrigger bt = new ExampleTrigger();
 		bt.isBefore = false;
 
@@ -229,7 +238,8 @@ private class BaseTrigger_Test {
 		System.assertEquals(0, expectedBaseOldMap.size(), 'Did not get the all the expected objects: ' + expectedBaseOldMap);
 	}
 
-	static testMethod void baseNewMap_empty() {
+	@isTest
+	static void baseNewMap_empty() {
 		ExampleTrigger bt = new ExampleTrigger();
 		bt.isBefore = false;
 
@@ -248,7 +258,8 @@ private class BaseTrigger_Test {
 		Test.stopTest();
 	}
 
-	static testMethod void baseNewMap_notEmpty() {
+	@isTest
+	static void baseNewMap_notEmpty() {
 		ExampleTrigger bt = new ExampleTrigger();
 		bt.isBefore = false;
 
@@ -285,7 +296,8 @@ private class BaseTrigger_Test {
 		System.assertEquals(0, expectedBaseNewMap.size(), 'Did not get the all the expected objects: ' + expectedBaseNewMap);
 	}
 
-	static testMethod void isAfter_valid() {
+	@isTest
+	static void isAfter_valid() {
 		ExampleTrigger bt = new ExampleTrigger();
 		bt.isBefore = false;
 
@@ -302,7 +314,8 @@ private class BaseTrigger_Test {
 		Test.stopTest();
 	}
 
-	static testMethod void isAfter_invalid() {
+	@isTest
+	static void isAfter_invalid() {
 		ExampleTrigger bt = new ExampleTrigger();
 		bt.isBefore = true;
 
@@ -319,7 +332,8 @@ private class BaseTrigger_Test {
 		Test.stopTest();
 	}
 
-	static testMethod void isDelete_check_isDelete_before_valid() {
+	@isTest
+	static void isDelete_check_isDelete_before_valid() {
 		ExampleTrigger bt = new ExampleTrigger();
 		bt.isBefore = true;
 
@@ -336,7 +350,8 @@ private class BaseTrigger_Test {
 		Test.stopTest();
 	}
 
-	static testMethod void isActuallyUpdate_check_isDelete_before_invalid() {
+	@isTest
+	static void isActuallyUpdate_check_isDelete_before_invalid() {
 		ExampleTrigger bt = new ExampleTrigger();
 		bt.isBefore = true;
 
@@ -353,7 +368,8 @@ private class BaseTrigger_Test {
 		Test.stopTest();
 	}
 
-	static testMethod void isActuallyInsert_check_isDelete_before_invalid() {
+	@isTest
+	static void isActuallyInsert_check_isDelete_before_invalid() {
 		ExampleTrigger bt = new ExampleTrigger();
 		bt.isBefore = true;
 
@@ -370,7 +386,8 @@ private class BaseTrigger_Test {
 		Test.stopTest();
 	}
 
-	static testMethod void isDelete_check_isDelete_after_valid() {
+	@isTest
+	static void isDelete_check_isDelete_after_valid() {
 		ExampleTrigger bt = new ExampleTrigger();
 		bt.isBefore = false;
 
@@ -388,7 +405,8 @@ private class BaseTrigger_Test {
 		Test.stopTest();
 	}
 
-	static testMethod void isActuallyUpdate_check_isDelete_after_invalid() {
+	@isTest
+	static void isActuallyUpdate_check_isDelete_after_invalid() {
 		ExampleTrigger bt = new ExampleTrigger();
 		bt.isBefore = false;
 
@@ -405,7 +423,8 @@ private class BaseTrigger_Test {
 		Test.stopTest();
 	}
 
-	static testMethod void isActuallyInsert_check_isDelete_after_invalid() {
+	@isTest
+	static void isActuallyInsert_check_isDelete_after_invalid() {
 		ExampleTrigger bt = new ExampleTrigger();
 		bt.isBefore = false;
 
@@ -422,7 +441,8 @@ private class BaseTrigger_Test {
 		Test.stopTest();
 	}
 
-	static testMethod void isInsert_check_isInsert_before_valid() {
+	@isTest
+	static void isInsert_check_isInsert_before_valid() {
 		ExampleTrigger bt = new ExampleTrigger();
 		bt.isBefore = true;
 
@@ -437,7 +457,8 @@ private class BaseTrigger_Test {
 		Test.stopTest();
 	}
 
-	static testMethod void isActuallyUpdate_check_isInsert_before_invalid() {
+	@isTest
+	static void isActuallyUpdate_check_isInsert_before_invalid() {
 		ExampleTrigger bt = new ExampleTrigger();
 		bt.isBefore = true;
 
@@ -454,7 +475,8 @@ private class BaseTrigger_Test {
 		Test.stopTest();
 	}
 
-	static testMethod void isActuallyDelete_check_isInsert_before_invalid() {
+	@isTest
+	static void isActuallyDelete_check_isInsert_before_invalid() {
 		ExampleTrigger bt = new ExampleTrigger();
 		bt.isBefore = true;
 
@@ -471,7 +493,8 @@ private class BaseTrigger_Test {
 		Test.stopTest();
 	}
 
-	static testMethod void isInsert_check_isInsert_after_valid() {
+	@isTest
+	static void isInsert_check_isInsert_after_valid() {
 		ExampleTrigger bt = new ExampleTrigger();
 		bt.isBefore = false;
 
@@ -487,7 +510,8 @@ private class BaseTrigger_Test {
 		Test.stopTest();
 	}
 
-	static testMethod void isActuallyUpdate_check_isInsert_after_invalid() {
+	@isTest
+	static void isActuallyUpdate_check_isInsert_after_invalid() {
 		ExampleTrigger bt = new ExampleTrigger();
 		bt.isBefore = false;
 
@@ -504,7 +528,8 @@ private class BaseTrigger_Test {
 		Test.stopTest();
 	}
 
-	static testMethod void isActuallyDelete_check_isInsert_after_invalid() {
+	@isTest
+	static void isActuallyDelete_check_isInsert_after_invalid() {
 		ExampleTrigger bt = new ExampleTrigger();
 		bt.isBefore = false;
 
@@ -521,7 +546,8 @@ private class BaseTrigger_Test {
 		Test.stopTest();
 	}
 
-	static testMethod void isUpdate_check_isUpdate_before_valid() {
+	@isTest
+	static void isUpdate_check_isUpdate_before_valid() {
 		ExampleTrigger bt = new ExampleTrigger();
 		bt.isBefore = true;
 
@@ -538,7 +564,8 @@ private class BaseTrigger_Test {
 		Test.stopTest();
 	}
 
-	static testMethod void isActuallyInsert_check_isUpdate_before_invalid() {
+	@isTest
+	static void isActuallyInsert_check_isUpdate_before_invalid() {
 		ExampleTrigger bt = new ExampleTrigger();
 		bt.isBefore = true;
 
@@ -554,7 +581,8 @@ private class BaseTrigger_Test {
 		Test.stopTest();
 	}
 
-	static testMethod void isActuallyDelete_check_isUpdate_before_invalid() {
+	@isTest
+	static void isActuallyDelete_check_isUpdate_before_invalid() {
 		ExampleTrigger bt = new ExampleTrigger();
 		bt.isBefore = true;
 
@@ -567,7 +595,8 @@ private class BaseTrigger_Test {
 		Test.stopTest();
 	}
 
-	static testMethod void isUpdate_check_isUpdate_after_valid() {
+	@isTest
+	static void isUpdate_check_isUpdate_after_valid() {
 		ExampleTrigger bt = new ExampleTrigger();
 		bt.isBefore = false;
 
@@ -584,7 +613,8 @@ private class BaseTrigger_Test {
 		Test.stopTest();
 	}
 
-	static testMethod void isActuallyInsert_check_isUpdate_after_invalid() {
+	@isTest
+	static void isActuallyInsert_check_isUpdate_after_invalid() {
 		ExampleTrigger bt = new ExampleTrigger();
 		bt.isBefore = false;
 
@@ -600,7 +630,8 @@ private class BaseTrigger_Test {
 		Test.stopTest();
 	}
 
-	static testMethod void isActuallyDelete_check_isUpdate_after_invalid() {
+	@isTest
+	static void isActuallyDelete_check_isUpdate_after_invalid() {
 		ExampleTrigger bt = new ExampleTrigger();
 		bt.isBefore = false;
 
@@ -613,7 +644,8 @@ private class BaseTrigger_Test {
 		Test.stopTest();
 	}
 
-	static testMethod void isBulk_valid_new() {
+	@isTest
+	static void isBulk_valid_new() {
 		ExampleTrigger bt = new ExampleTrigger();
 		bt.baseNewObjs = new List<sObject> {TestUtils.getAccount(), TestUtils.getAccount()};
 
@@ -624,7 +656,8 @@ private class BaseTrigger_Test {
 		Test.stopTest();
 	}
 
-	static testMethod void isBulk_valid_update() {
+	@isTest
+	static void isBulk_valid_update() {
 		List<sObject> accounts = new List<sObject> {TestUtils.getAccount(), TestUtils.getAccount()};
 		insert accounts;
 
@@ -638,7 +671,8 @@ private class BaseTrigger_Test {
 		Test.stopTest();
 	}
 
-	static testMethod void isBulk_invalid_new() {
+	@isTest
+	static void isBulk_invalid_new() {
 		ExampleTrigger bt = new ExampleTrigger();
 		bt.baseNewObjs = new List<sObject> {TestUtils.getAccount()};
 
@@ -649,7 +683,8 @@ private class BaseTrigger_Test {
 		Test.stopTest();
 	}
 
-	static testMethod void isBulk_invalid_update() {
+	@isTest
+	static void isBulk_invalid_update() {
 		List<sObject> accounts = new List<sObject> {TestUtils.getAccount()};
 		insert accounts;
 
@@ -663,7 +698,8 @@ private class BaseTrigger_Test {
 		Test.stopTest();
 	}
 
-	static testMethod void runBefore() {
+	@isTest
+	static void runBefore() {
 		ExampleTrigger bt = new ExampleTrigger();
 		bt.baseNewObjs = new List<sObject> {TestUtils.getAccount()};
 
@@ -690,7 +726,8 @@ private class BaseTrigger_Test {
 		);
 	}
 
-	static testMethod void runAfter() {
+	@isTest
+	static void runAfter() {
 		ExampleTrigger bt = new ExampleTrigger();
 		bt.baseNewObjs = new List<sObject> {TestUtils.getAccount()};
 
@@ -717,7 +754,8 @@ private class BaseTrigger_Test {
 		);
 	}
 
-	static testMethod void run_isBefore() {
+	@isTest
+	static void run_isBefore() {
 		ExampleTrigger bt = new ExampleTrigger();
 		bt.isBefore = true;
 		bt.baseNewObjs = new List<sObject> {TestUtils.getAccount()};
@@ -735,7 +773,8 @@ private class BaseTrigger_Test {
 		System.assertEquals(0, bt.numberOfAfterRuns, 'Should have one run after');
 	}
 
-	static testMethod void run_isAfter() {
+	@isTest
+	static void run_isAfter() {
 		ExampleTrigger bt = new ExampleTrigger();
 		bt.isBefore = false;
 		bt.baseNewObjs = new List<sObject> {TestUtils.getAccount()};
@@ -753,7 +792,8 @@ private class BaseTrigger_Test {
 		System.assertEquals(1, bt.numberOfAfterRuns, 'Should have one run after');
 	}
 
-	static testMethod void runWhenSkipTriggerSet() {
+	@isTest
+	static void runWhenSkipTriggerSet() {
 		ExampleTrigger bt = new ExampleTrigger();
 		bt.triggerShouldBeSkippedByDefault = true;
 		bt.baseNewObjs = new List<sObject> {TestUtils.getAccount()};
@@ -771,7 +811,8 @@ private class BaseTrigger_Test {
 		System.assertEquals(0, bt.numberOfAfterRuns, 'Should not have run after');
 	}
 
-	static testMethod void run_twoTriggers_isBefore() {
+	@isTest
+	static void run_twoTriggers_isBefore() {
 		ExampleTrigger bt = new ExampleTrigger();
 		bt.isBefore = true;
 		bt.baseNewObjs = new List<SObject> {TestUtils.getAccount()};
@@ -818,7 +859,8 @@ private class BaseTrigger_Test {
 		);
 	}
 
-	static testMethod void run_twoTriggers_isAfter() {
+	@isTest
+	static void run_twoTriggers_isAfter() {
 		ExampleTrigger bt = new ExampleTrigger();
 		bt.isBefore = false;
 		bt.baseNewObjs = new List<SObject> {TestUtils.getAccount()};
@@ -865,7 +907,8 @@ private class BaseTrigger_Test {
 		);
 	}
 
-	static testMethod void constructor_doubleInstantiation_valid() {
+	@isTest
+	static void constructor_doubleInstantiation_valid() {
 		ExampleTrigger bt = new ExampleTrigger();
 		bt.isBefore = false;
 		bt.baseNewObjs = new List<SObject> {TestUtils.getAccount()};
@@ -885,7 +928,8 @@ private class BaseTrigger_Test {
 		System.assertEquals(1, bt2.numberOfAfterRuns, 'should have one run after');
 	}
 
-	static testMethod void constructor_doubleInstantiation_staysInSync() {
+	@isTest
+	static void constructor_doubleInstantiation_staysInSync() {
 		ExampleTrigger bt = new ExampleTrigger();
 		bt.isBefore = false;
 		bt.baseNewObjs = new List<SObject> {TestUtils.getAccount()};

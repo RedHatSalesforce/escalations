@@ -6,7 +6,8 @@
 
 @isTest
 private class EscalationUtils_Test {
-	static testMethod void getEscalations() {
+	@isTest
+	static void getEscalations() {
 		rh_escal__Escalation__c testEscalation1 = TestUtils.getEscalation();
 		rh_escal__Escalation__c testEscalation2 = TestUtils.getEscalation();
 
@@ -37,7 +38,8 @@ private class EscalationUtils_Test {
 		System.assert(expectedResults.isEmpty(), 'Did not get back all the expected results');
 	}
 
-	static testMethod void getEscalationMap() {
+	@isTest
+	static void getEscalationMap() {
 		rh_escal__Escalation__c testEscalation1 = TestUtils.getEscalation();
 		rh_escal__Escalation__c testEscalation2 = TestUtils.getEscalation();
 
@@ -69,7 +71,8 @@ private class EscalationUtils_Test {
 		System.assert(expectedResults.isEmpty(), 'Did not get back all the expected results');
 	}
 
-	static testMethod void getEscalation() {
+	@isTest
+	static void getEscalation() {
 		rh_escal__Escalation__c testEscalation = TestUtils.getEscalation();
 
 		insert testEscalation;

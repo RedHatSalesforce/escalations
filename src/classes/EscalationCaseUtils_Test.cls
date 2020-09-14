@@ -6,7 +6,8 @@
 
 @IsTest
 private class EscalationCaseUtils_Test {
-	static testMethod void getEscalationIds() {
+	@isTest
+	static void getEscalationIds() {
 		Account testAccount = TestUtils.getAccount();
 		insert testAccount;
 
@@ -55,7 +56,8 @@ private class EscalationCaseUtils_Test {
 		System.assert(expectedResults.isEmpty(), 'Did not get back all the Ids we expected');
 	}
 
-	static testMethod void buildEscalationToCaseMap() {
+	@isTest
+	static void buildEscalationToCaseMap() {
 		Account testAccount = TestUtils.getAccount();
 		insert testAccount;
 
@@ -129,7 +131,8 @@ private class EscalationCaseUtils_Test {
 		System.assert(expectedResults.isEmpty(), 'Did not get back all the Ids we expected');
 	}
 
-	static testMethod void getEscalationCasesForEscalations() {
+	@isTest
+	static void getEscalationCasesForEscalations() {
 		Account testAccount = TestUtils.getAccount();
 		insert testAccount;
 

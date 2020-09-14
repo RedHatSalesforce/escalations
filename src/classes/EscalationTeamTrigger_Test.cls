@@ -10,7 +10,8 @@ public with sharing class EscalationTeamTrigger_Test {
 	//                             checkTeamDuplicationOnInsert                       //
 	////////////////////////////////////////////////////////////////////////////////////
 
-	static testMethod void setDuplicateContactTypeMember_onAnEscalationTeamInsertTest() {
+	@isTest
+	static void setDuplicateContactTypeMember_onAnEscalationTeamInsertTest() {
 		Account testAccount = TestUtils.getAccount();
 		insert testAccount;
 
@@ -48,7 +49,8 @@ public with sharing class EscalationTeamTrigger_Test {
 		System.assertEquals(null, testEscalationTeam2.Id, 'The team member should not have been added');
 	}
 
-	static testMethod void setUniqueContactTypeMember_onAnEscalationTeamInsertTest() {
+	@isTest
+	static void setUniqueContactTypeMember_onAnEscalationTeamInsertTest() {
 		Account testAccount = TestUtils.getAccount();
 		insert testAccount;
 
@@ -88,7 +90,8 @@ public with sharing class EscalationTeamTrigger_Test {
 		System.assertEquals(testContact2.Id, testEscalationTeam2.rh_escal__Contact__c, 'The escalation team is not set correctly');
 	}
 
-	static testMethod void setDuplicateUserTypeMember_onAnEscalationTeamInsertTest() {
+	@isTest
+	static void setDuplicateUserTypeMember_onAnEscalationTeamInsertTest() {
 		Account testAccount = TestUtils.getAccount();
 		insert testAccount;
 
@@ -122,7 +125,8 @@ public with sharing class EscalationTeamTrigger_Test {
 		System.assertEquals(null, testEscalationTeam2.Id, 'The team member should not have been added');
 	}
 
-	static testMethod void setUniqueUserTypeMember_onAnEscalationTeamInsertTest() {
+	@isTest
+	static void setUniqueUserTypeMember_onAnEscalationTeamInsertTest() {
 		Account testAccount = TestUtils.getAccount();
 		insert testAccount;
 
@@ -152,7 +156,8 @@ public with sharing class EscalationTeamTrigger_Test {
 		System.assertEquals(testUser.Id, testEscalationTeam.rh_escal__User__c, 'The escalation team is not set correctly');
 	}
 
-	static testMethod void setDuplicateEmailTypeMember_onAnEscalationTeamInsertTest() {
+	@isTest
+	static void setDuplicateEmailTypeMember_onAnEscalationTeamInsertTest() {
 		Account testAccount = TestUtils.getAccount();
 		insert testAccount;
 
@@ -186,7 +191,8 @@ public with sharing class EscalationTeamTrigger_Test {
 		System.assertEquals(null, testEscalationTeam2.Id, 'The team member should not have been added');
 	}
 
-	static testMethod void setUniqueEmailTypeMember_onAnEscalationTeamInsertTest() {
+	@isTest
+	static void setUniqueEmailTypeMember_onAnEscalationTeamInsertTest() {
 		Account testAccount = TestUtils.getAccount();
 		insert testAccount;
 
@@ -226,7 +232,8 @@ public with sharing class EscalationTeamTrigger_Test {
 	//                             checkTeamDuplicationOnUpdate                       //
 	////////////////////////////////////////////////////////////////////////////////////
 
-	static testMethod void setDuplicateContactTypeMember_onAnEscalationTeamUpdateTest() {
+	@isTest
+	static void setDuplicateContactTypeMember_onAnEscalationTeamUpdateTest() {
 		Account testAccount = TestUtils.getAccount();
 		insert testAccount;
 
@@ -267,7 +274,8 @@ public with sharing class EscalationTeamTrigger_Test {
 		Test.stopTest();
 	}
 
-	static testMethod void setUniqueContactTypeMember_onAnEscalationTeamUpdateTest() {
+	@isTest
+	static void setUniqueContactTypeMember_onAnEscalationTeamUpdateTest() {
 		Account testAccount = TestUtils.getAccount();
 		insert testAccount;
 
@@ -313,7 +321,8 @@ public with sharing class EscalationTeamTrigger_Test {
 		System.assertEquals(testContact3.Id, testEscalationTeam2.rh_escal__Contact__c, 'The team member should not have been added');
 	}
 
-	static testMethod void setDuplicateEmailTypeMember_onAnEscalationTeamUpdateTest() {
+	@isTest
+	static void setDuplicateEmailTypeMember_onAnEscalationTeamUpdateTest() {
 		Account testAccount = TestUtils.getAccount();
 		insert testAccount;
 
@@ -354,7 +363,8 @@ public with sharing class EscalationTeamTrigger_Test {
 		Test.stopTest();
 	}
 
-	static testMethod void setUniqueEmailTypeMember_onAnEscalationTeamUpdateTest() {
+	@isTest
+	static void setUniqueEmailTypeMember_onAnEscalationTeamUpdateTest() {
 		Account testAccount = TestUtils.getAccount();
 		insert testAccount;
 
@@ -398,7 +408,8 @@ public with sharing class EscalationTeamTrigger_Test {
 		System.assert(email2.equalsIgnoreCase(testEscalationTeam2.rh_escal__Email__c), 'The team member should not have been added');
 	}
 
-	static testMethod void setDuplicateUserTypeMember_onAnEscalationTeamUpdateTest() {
+	@isTest
+	static void setDuplicateUserTypeMember_onAnEscalationTeamUpdateTest() {
 		Account testAccount = TestUtils.getAccount();
 		insert testAccount;
 
@@ -438,7 +449,8 @@ public with sharing class EscalationTeamTrigger_Test {
 		Test.stopTest();
 	}
 
-	static testMethod void setUniqueUserTypeMember_onAnEscalationTeamUpdateTest() {
+	@isTest
+	static void setUniqueUserTypeMember_onAnEscalationTeamUpdateTest() {
 		Account testAccount = TestUtils.getAccount();
 		insert testAccount;
 
@@ -483,7 +495,8 @@ public with sharing class EscalationTeamTrigger_Test {
 		System.assertEquals(testUser.Id, testEscalationTeam2.rh_escal__User__c, 'The team member should not have been added');
 	}
 
-	static testMethod void changeInternalDoesNotTriggerDupeExceptionForEmailContact() {
+	@isTest
+	static void changeInternalDoesNotTriggerDupeExceptionForEmailContact() {
 		Account testAccount = TestUtils.getAccount();
 		insert testAccount;
 
@@ -512,7 +525,8 @@ public with sharing class EscalationTeamTrigger_Test {
 		System.assert(testEscalationTeam.rh_escal__Internal__c, 'Internal should be true');
 	}
 
-	static testMethod void changeInternalDoesNotTriggerDupeExceptionForContact() {
+	@isTest
+	static void changeInternalDoesNotTriggerDupeExceptionForContact() {
 		Account testAccount = TestUtils.getAccount();
 		insert testAccount;
 
@@ -541,7 +555,8 @@ public with sharing class EscalationTeamTrigger_Test {
 		System.assert(testEscalationTeam.rh_escal__Internal__c, 'Internal should be true');
 	}
 
-	static testMethod void changeInternalDoesNotTriggerDupeExceptionForUser() {
+	@isTest
+	static void changeInternalDoesNotTriggerDupeExceptionForUser() {
 		Account testAccount = TestUtils.getAccount();
 		insert testAccount;
 
@@ -571,7 +586,8 @@ public with sharing class EscalationTeamTrigger_Test {
 		System.assert(testEscalationTeam.rh_escal__Internal__c, 'Internal should be true');
 	}
 
-	static testMethod void ensureValidTeamMember_valid() {
+	@isTest
+	static void ensureValidTeamMember_valid() {
 		User testUser = TestUtils.createTestUser();
 
 		rh_escal__Escalation__c escal = TestUtils.getEscalation();
@@ -590,7 +606,8 @@ public with sharing class EscalationTeamTrigger_Test {
 		System.assert(true, 'We should not have raised any exceptions');
 	}
 
-	static testMethod void ensureValidTeamMember_noContactTypes_invalid() {
+	@isTest
+	static void ensureValidTeamMember_noContactTypes_invalid() {
 		rh_escal__Escalation__c escal = TestUtils.getEscalation();
 		insert escal;
 
@@ -612,7 +629,8 @@ public with sharing class EscalationTeamTrigger_Test {
 		Test.stopTest();
 	}
 
-	static testMethod void ensureValidTeamMember_tooManyContactTypes_invalid() {
+	@isTest
+	static void ensureValidTeamMember_tooManyContactTypes_invalid() {
 		User testUser = TestUtils.createTestUser();
 
 		rh_escal__Escalation__c escal = TestUtils.getEscalation();
