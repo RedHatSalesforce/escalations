@@ -245,15 +245,6 @@ global with sharing abstract class BaseTrigger {
 	}
 
 	/**
-	* allow triggerNameToInfoMap to be cleared for a specific trigger from outside of the package.
-	*
-	* @param key the triggername to remove.
-	*/
-	public static void resetTriggerMap(String key) {
-		triggerNameToInfoMap.remove(key);
-	}
-
-	/**
 	* Perform trigger actions
 	*/
 	@TestVisible

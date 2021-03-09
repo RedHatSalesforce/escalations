@@ -860,22 +860,6 @@ private class BaseTrigger_Test {
 	}
 
 	@isTest
-	static void resetTriggerMap() {
-		ExampleTrigger bt = new ExampleTrigger();
-		bt.isBefore = true;
-		bt.baseNewObjs = new List<SObject> {TestUtils.getAccount()};
-		System.assert(baseTrigger.triggerNameToInfoMap.containsKey('ExampleTrigger'), 'Map should contain information about ExampleTrigger');
-
-		Test.startTest();
-
-		BaseTrigger.resetTriggerMap('ExampleTrigger');
-
-		Test.stopTest();
-
-		System.assert(!baseTrigger.triggerNameToInfoMap.containsKey('ExampleTrigger'), 'Map should not contain information about ExampleTrigger');
-	}
-
-	@isTest
 	static void run_twoTriggers_isAfter() {
 		ExampleTrigger bt = new ExampleTrigger();
 		bt.isBefore = false;
