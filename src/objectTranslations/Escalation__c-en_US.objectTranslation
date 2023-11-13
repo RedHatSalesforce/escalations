@@ -82,7 +82,7 @@
     </fields>
     <fields>
         <help><!-- The escalation tier --></help>
-        <label><!-- Tier --></label>
+        <label><!-- Tier [Deprecated] --></label>
         <name>Tier__c</name>
         <picklistValues>
             <masterLabel>Tier 1</masterLabel>
