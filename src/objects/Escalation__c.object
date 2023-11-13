@@ -278,7 +278,7 @@
         <description>The escalation tier</description>
         <externalId>false</externalId>
         <inlineHelpText>The escalation tier</inlineHelpText>
-        <label>Tier</label>
+        <label>Tier [Deprecated]</label>
         <picklist>
             <picklistValues>
                 <fullName>Tier 1</fullName>
